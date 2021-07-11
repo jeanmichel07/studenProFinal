@@ -1,0 +1,71 @@
+{% extends 'base/_layout_security.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+    {% for message in app.flashes('success') %}
+
+            {{ message }}
+
+    {% endfor %}
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <form action="{{ path('app_login') }}" method="post" class="login100-form validate-form">
+                <img src="{{ asset('assets/img/logo.png') }}" class="login100-form-logo" width="125px">
+                <span class="login100-form-title p-b-43">
+                    Connectez-vous ici
+                </span>
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="mb-3">
+                        You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+                <div style="background-color: white" class="wrap-input100 validate-input" data-validate = "Un adresse email valide est requis: ex@abc.xyz">
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="input100" autocomplete="email" required autofocus>
+                    <span class="focus-input100"></span>
+                    <span class="label-input100">Email</span>
+                </div>
+                <div style="background-color: white" class="wrap-input100 validate-input" data-validate="Un mot de passe est requis">
+                    <input class="input100" type="password" name="password">
+                    <span class="focus-input100"></span>
+                    <span class="label-input100">Password</span>
+                </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <div class="flex-sb-m w-full p-t-3 p-b-32">
+                    <div class="contact100-form-checkbox">
+                    </div>
+                    <div>
+                        <a href="{{ path('passworg_forgot') }}" class="txt1">
+                            Mot de passe oublié?
+                        </a>
+                    </div>
+                </div>
+                <div class="container-login100-form-btn">
+                    <button class="login100-form-btn">
+                        Se connecter
+                    </button>
+                </div>
+                <div class="text-center p-t-46 p-b-20">
+                    <a href="{{ path('app_register', {c: app.request.get('c')}) }}" class="btn btn-outline-primary btn-block">S'inscrire</a>
+                </div>
+            </form>
+            <div class="login100-more">
+                <h4>STUDENPRO</h4>
+                <h4 class="mt-4">FAIRE TRAITER VOS DEVOIR PAR DES SPÉCIALISTES.</h4>
+                <div class="d-flex justify-content-center align-items-center mt-5">
+                    <h5>
+                        Toutes les matières du collège à l'université
+                    </h5>
+                </div>
+                <div class="login100-more-footer">
+                    <p>Pour toute question, contactez nous sur:</p>
+                    <a href="mailto:contact@student.fr">contact@student.fr</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,172 @@
+{% extends 'base/_layout_security.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bootstrap4-glyphicons/css/bootstrap-glyphicons.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.5/css/fileinput.min.css" integrity="sha512-A/XiYKl0I56Nxg43kogQlAnLUbGRVGcT3J2Ni9b73+blF89rmMJ6qL9iHhPR/vDOsjcylhEoiQfzHzGHS+K/lQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" integrity="sha512-kq3FES+RuuGoBW3a9R2ELYKRywUEQv0wvPTItv3DSGqjpbNtGWVdvT8qwdKkqvPzT93jp8tSF4+oN4IeTEIlQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock %}
+
+{% block body %}
+    <div class="container-login100">
+        <div class="wrap-login100 flex-row">
+            {{ form_start(registrationForm, {'attr': {'class': 'login100-form validate-form' }}) }}
+            <img src="{{ asset('assets/img/logo.png') }}" class="login100-form-logo" width="125px">
+            <span class="login100-form-title p-b-43">
+                Inscription
+            </span>
+            {{ form_errors(registrationForm) }}
+            <div>
+                <div class="col-sm-4 text-center">
+                    <div class="kv-avatar">
+                        <div class="file-loading">
+                            {{ form_widget(registrationForm.picture_student, {'attr': {'accept': '.jpg, .png'}})}}
+                            {{ form_errors(registrationForm.picture_student) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div style="background-color: white" class="wrap-input50 validate-input" data-validate="Un adresse email valide est requis: ex@abc.xyz">
+                {{ form_widget(registrationForm.email, {'attr': {'class': 'input50'}}) }}
+                <span class="focus-input50"></span>
+                <span class="label-input50">{{ form_label(registrationForm.email) }}</span>
+                {{ form_errors(registrationForm.email) }}
+            </div>
+            <div style="background-color: white; display: none" class="wrap-input-radio">
+                <input name="c" class="hidden" value="{{ app.request.get('c') }}">
+            </div>
+            <div style="background-color: white" class="wrap-input50 validate-input" data-validate="Ce champ est requis">
+                {{ form_widget(registrationForm.name, {'attr': {'class': 'input50'}}) }}
+                <span class="focus-input50"></span>
+                <span class="label-input50">{{ form_label(registrationForm.name) }}</span>
+                {{ form_errors(registrationForm.name) }}
+            </div>
+            <div style="background-color: white" class="wrap-input50 validate-input" data-validate="Ce champ est requis">
+                {{ form_widget(registrationForm.firstname, {'attr': {'class': 'input50'}}) }}
+                <span class="focus-input50"></span>
+                <span class="label-input50">{{ form_label(registrationForm.firstname) }}</span>
+                {{ form_errors(registrationForm.firstname) }}
+            </div>
+            <div style="background-color: white" class="wrap-input50 validate-input" data-validate="Ce champ est requis">
+                {{ form_widget(registrationForm.number, {'attr': {'class': 'input50'}}) }}
+                <span class="focus-input50"></span>
+                <span class="label-input50">{{ form_label(registrationForm.number) }}</span>
+                {{ form_errors(registrationForm.number) }}
+            </div>
+            {% if choice != "pro" %}
+                <div style="background-color: white" class="wrap-input50 validate-input" data-validate="Ce champ est requis">
+                    {{ form_widget(registrationForm.password.first, {'attr': {'class': 'input50'}}) }}
+                    <span class="focus-input50"></span>
+                    <span class="label-input50">{{ form_label(registrationForm.password.first) }}</span>
+                    {{ form_errors(registrationForm.password.first) }}
+                </div>
+                <div style="background-color: white" class="wrap-input50 validate-input" data-validate="Ce champ est requis">
+                    {{ form_widget(registrationForm.password.second, {'attr': {'class': 'input50'}}) }}
+                    <span class="focus-input50"></span>
+                    <span class="label-input50">{{ form_label(registrationForm.password.second) }}</span>
+                    {{ form_errors(registrationForm.password.second) }}
+                </div>
+                <div style="background-color: white" class="wrap-input50 validate-input" data-validate="Ce champ est requis">
+                    {{ form_widget(registrationForm.school, {'attr': {'class': 'input50'}}) }}
+                    <span class="focus-input50"></span>
+                    <span class="label-input50">{{ form_label(registrationForm.school) }}</span>
+                </div>
+                <div style="background-color: white" class="wrap-input-radio">
+                    {{ form_label(registrationForm.level_study, '', {'label_attr': {'class': 'label-radio'}}) }}
+                    {{ form_widget(registrationForm.level_study, {'attr': {'class': 'container-radio'}}) }}
+                    {{ form_errors(registrationForm.level_study) }}
+                </div>
+            {% else %}
+                <div style="background-color: white" class="wrap-input50 validate-input" data-validate="Ce champ est requis">
+                    {{ form_widget(registrationForm.level_study, {'attr': {'class': 'input50'}})}}
+                    <span class="focus-input50"></span>
+                    <span class="label-input50">{{ form_label(registrationForm.level_study)}}</span>
+                    {{ form_errors(registrationForm.level_study) }}
+                </div>
+                <div style="background-color: white" class="wrap-input-radio" data-validate="Ce champ est requis">
+                    {{ form_label(registrationForm.level_study_occuped, '', {'label_attr': {'class': 'label-radio'}}) }}
+                    {{ form_widget(registrationForm.level_study_occuped, {'attr': {'class': 'container-radio'}}) }}
+                    {{ form_errors(registrationForm.level_study_occuped) }}
+                </div>
+                <div id="specialty-fields-list" class="wrap-input50">
+                    <select name="specialities[]" id="specialities" multiple>
+                        {% for matiere in matieres %}
+                            <option value="{{ matiere.id }}">{{ matiere.nom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="file-upload" x-data="{ fileName: '' }">
+                    <div class="input-group">
+                        <span class="input-group-text px-3 text-muted"><i class="fa fa-file-pdf-o fa-lg"></i></span>
+                        {{ form_widget(registrationForm.file_cv, {'attr': {'x-ref': 'file', '@change': 'fileName = $refs.file.files.length > 0 ? $refs.file.files[0].name : "";
+                        const newEvent = new CustomEvent("blur");
+  window.setTimeout(() => {document.querySelector(".file-upload .input50").dispatchEvent(newEvent);}, 50)
+                        const lastDot = fileName.lastIndexOf(".");
+                        const ext = fileName.substring(lastDot + 1);
+                        if (ext.toLowerCase() === "pdf" || ext.toLowerCase() === "" || ext.toLowerCase() === "doc" || ext.toLowerCase() === "docx") return;
+                        $refs.file.value = "";
+                        fileName = "";', 'class': 'd-none', 'accept': 'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document'}})}}
+                        <div style="background-color: white" class="wrap-input50 validate-input" data-validate="Un fichier est requis">
+                            <input type="text" disabled class="input50" x-model="fileName">
+                            <span class="focus-input50"></span>
+                            <span class="label-input50">{{ form_label(registrationForm.file_cv)}}</span>
+                            {{ form_errors(registrationForm.file_cv) }}
+                        </div>
+                        <button class="browse btn btn-primary px-4" type="button" x-on:click.prevent="$refs.file.click()"><i class="fa fa-file-pdf-o"></i> Importer</button>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="form-group wrap-general-conditions" data-validate="Vous devez accepter les conditions générales d'utilisation">
+                <input type="checkbox" class="form-check-input" name="cgu" id="cgu" required>
+                <label class="form-check-label" for="cgu">J'ai lu et j'accepte les <a href="#" data-toggle="modal" data-target="#general_conditions">conditions générales d'utilisation</a></label>
+            </div>
+            <div class="container-login100-form-btn">
+                <button type="submit" class="login100-form-btn">
+                    S'inscrire
+                </button>
+            </div>
+            <div class="text-center p-t-10">
+                <a href="{{ path('app_login', {c: app.request.get('c')}) }}" class="btn btn-outline-primary btn-block">J'ai déjà un compte</a>
+            </div>
+            {{ form_rest(registrationForm) }}
+            {{ form_end(registrationForm) }}
+            <div class="login100-more right-0 left-auto">
+                <h4>STUDENPRO</h4>
+                <h4 class="mt-4">FAIRE TRAITER VOS DEVOIR PAR DES SPÉCIALISTES.</h4>
+                <div class="d-flex justify-content-center align-items-center mt-5">
+                    <h5>
+                        Toutes les matières du collège à l'université
+                    </h5>
+                </div>
+                <div class="login100-more-footer">
+                    <p>Pour toute question, contactez nous sur:</p>
+                    <a href="mailto:contact@student.fr">contact@student.fr</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="general_conditions" tabindex="-1" role="dialog" aria-labelledby="general_conditions_title" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 700px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="general_conditions_title">STUDENPRO-CGU-ET-POLITIQUE-DE-CONFIDENTIALITE</h4>
+                </div>
+                <div class="modal-body">
+                    {% include 'conditions/STUDENPRO-CGU-ET-POLITIQUE-DE-CONFIDENTIALITE.html.twig' %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" onclick="document.querySelector(`input[name='cgu']`).click()" data-dismiss="modal">accepter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.5/js/fileinput.min.js" integrity="sha512-1FvXwt9wkKd29ilILHy0zei6ScE5vdEKqZ6BSW+gmM7mfqC4T4256OmUfFzl1FkaNS3FUQ/Kdzrrs8SD83bCZA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@material/select@11.0.0/dist/mdc.select.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{% endblock %}

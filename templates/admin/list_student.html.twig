@@ -1,0 +1,67 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Etudiant simple{% endblock %}
+{% block pageHeader %}
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Etudiant simple</h5>
+                        <p class="m-b-0">Liste des étudiants ou élèves inscrits sur nos site</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('home') }}"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#!">Accueil</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+
+    <div class="page-wrapper">
+        <div class="page-body">
+            <div class="card">
+                <div class="card-block table-border-style">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nom</th>
+                                    <th>Prénom(s)</th>
+                                    <th>Contact</th>
+                                    <th>Établissement</th>
+                                    <th>Niveau d'étude</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for student in students %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ student.name|upper }}</td>
+                                    <td>{{ student.firstname|capitalize }}</td>
+                                    <td>{{ student.number }}</td>
+                                    <td>{{ student.school|capitalize }}</td>
+                                    <td>{{ student.levelStudy == 'university' ? 'Université' : (student.levelStudyOccuped == 'high_school' ? 'Lycée' : 'Collège') }}</td>
+                                </tr>
+                            {% else %}
+                                <tr class="text-center">
+                                    <td colspan="6">Aucune donnée disponible</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

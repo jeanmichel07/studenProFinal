@@ -1,0 +1,82 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block pageHeader %}
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Demande d'aides</h5>
+                        <p class="m-b-0">Bienvenue sur la page de géstion de demande d'aides</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('home') }}"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#!">Accueil</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+
+    <div class="page-wrapper">
+        <div class="page-body">
+            <div class="card">
+                <div class="card-block table-border-style">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Etudiant</th>
+                                <th>Matière</th>
+                                <th>Explication visio</th>
+                                <th>Délai de traitement</th>
+                                <th>Disponibilité</th>
+                                <th>Pièces joint</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in pub|reverse %}
+                                    <tr>
+                                        <td>{{ p.id }}</td>
+                                        <td>{{ p.student.name~' '~p.student.firstname }}</td>
+                                        <td>{{ p.matiere.nom }}</td>
+                                        <td>{{ p.explicationVisio == true? 'Oui': 'Non' }}</td>
+                                        <td>{{ p.delayOfTreatement }}</td>
+                                        <td>{{ p.availability|date('d/m/y - h:i') }}</td>
+                                        <td>
+                                            <a href="{{ asset('pub_student/'~p.file) }}" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
+                                                    <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/>
+                                                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                                                </svg>
+                                            </a>
+
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-primary">Proposer</a>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="7"></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

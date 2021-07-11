@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <!-- Font awesome -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('security/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+    <!--===============================================================================================-->
+    <!-- Bootstrap -->
+    <link href="{{ asset('security/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('security/fonts/Linearicons-Free-v1.0.0/icon-font.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('security/vendor/animate/animate.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('security/vendor/css-hamburgers/hamburgers.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('security/vendor/animsition/css/animsition.min.css') }}">
+    {% block stylesheets %}
+        {#{{ encore_entry_link_tags('app') }}#}
+    {% endblock %}
+
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('security/css/util.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('security/css/main.css') }}">
+    <!--===============================================================================================-->
+</head>
+<body>
+<div class="limiter">
+    {% block body %}
+    {% endblock %}
+</div>
+<script src="{{ asset('security/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+<!--===============================================================================================-->
+<script src="{{ asset('security/vendor/animsition/js/animsition.min.js') }}"></script>
+<!--===============================================================================================-->
+<script src="{{ asset('security/vendor/bootstrap/js/popper.js') }}"></script>
+<script src="{{ asset('security/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+{% block javascripts %}
+    {#{{ encore_entry_script_tags('app') }}#}
+{% endblock %}
+<!-- Main js -->
+<script src="{{ asset('security/js/main.js') }}"></script>
+</body>
+</html>

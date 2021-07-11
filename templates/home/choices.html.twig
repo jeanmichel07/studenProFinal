@@ -1,0 +1,85 @@
+{% extends 'base/_layout_security.html.twig' %}
+
+{% block title %}You are?{% endblock %}
+    {% block stylesheets %}
+        <style>
+            .img-spl{
+                width: 80%;
+                border-radius: 100px;
+                object-fit: cover;
+                height: 167px;
+            }
+            .img-pro{
+                width: 80%;
+                border-radius: 100px;
+                object-fit: cover;
+                height: 167px;
+            }
+            a{
+                color: white;
+            }
+            .infos{
+                margin-top: 10px;
+                color: #448aff;
+            }
+            .login100-form{
+                text-align: center;
+            }
+            .t{
+                padding-bottom: 50px;
+            }
+        </style>
+    {% endblock %}
+{% block body %}
+    {% for message in app.session.flashbag.get('success') %}
+        <div class="alert mx-1 alert-success alert-dismissible fade show" >
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <div class="login100-form validate-form">
+                <img src="{{ asset('assets/img/logo.png') }}" class="login100-form-logo" width="125px">
+
+                <h2 class="t">Vous êtes ?</h2>
+                <div class="row">
+                        <div class="col-6" style="text-align: center">
+                            <a href="{{ path('app_login', {c:simple}) }}">
+                                <img src="{{ asset('layout/assets/images/spl.jpg') }}" class="img-responsive img-spl"><br>
+                                <div class="infos">
+                                    <h6 style="font-weight: bold">Je suis étudiant(e) ou élève</h6>
+                                    J'ai besoin d'aide
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-6" style="text-align: center">
+                            <a href="{{ path('app_login', {c:pro}) }}">
+                                <img src="{{ asset('layout/assets/images/pro.png') }}" class="img-responsive img-pro"><br>
+                                <div class="infos">
+                                    <h6 style="font-weight: bold">Je suis étudiant(e) pro</h6>
+                                    Je peux aider
+                                </div>
+                            </a>
+                        </div>
+                </div>
+            </div>
+
+            <div class="login100-more">
+                <h4>STUDENPRO</h4>
+                <h4 class="mt-4">FAIRE TRAITER VOS DEVOIR PAR DES SPÉCIALISTES.</h4>
+                <div class="d-flex justify-content-center align-items-center mt-5">
+                    <h5>
+                        Toutes les matières du collège à l'université
+                    </h5>
+                </div>
+                <div class="login100-more-footer">
+                    <p>Pour toute question, contactez nous sur:</p>
+                    <a href="mailto:contact@student.fr">contact@student.fr</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

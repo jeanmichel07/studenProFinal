@@ -1,0 +1,84 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Demande d'entretien{% endblock %}
+
+{% block pageHeader %}
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Demande d'entretien</h5>
+                        <p class="m-b-0">Liste des étudiants pro en attente d'entretien et de validation</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('home') }}"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#!">Accueil</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    {% for message in app.session.flashbag.get('success') %}
+        <div class="alert mx-1 alert-success alert-dismissible fade show" >
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+    <div class="page-wrapper">
+        <div class="page-body">
+            <div class="card">
+                <div class="card-block table-border-style">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Prénom(s)</th>
+                                <th>Contact</th>
+                                <th>Niveau d'étude</th>
+                                <th>Diplôme</th>
+                                <th>Spécialité</th>
+                                <th>CV</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for student in students|reverse %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ student.name|upper }}</td>
+                                    <td>{{ student.firstname|capitalize }}</td>
+                                    <td>{{ student.number }}</td>
+                                    <td>{{ student.levelStudyOccuped == 'university' ? 'Université' : (student.levelStudyOccuped == 'high_school' ? 'Lycée' : 'Collège') }}</td>
+                                    <td>{{ student.levelStudy|capitalize }}</td>
+                                    <td>{{ student.speciality|capitalize }}</td>
+                                    <td><a title="télécharger" href="{{ asset('uploads/cv/' ~ student.fileCv) }}" class="btn btn-secondary d-inline-block" target="_blank" download style="padding: 5px 10px;"><i class="fa fa-download m-0"></i></a></td>
+                                  {#   <td><a title="Ouvrir compte" href="{{ path('open_compte_pro',{'id':student.id}) }}" class="btn btn-success"> <i class="fa fa-mail-forward"></i></td>#}
+                                    <td><button class="btn btn-success" title="Ouvrir ce compte" style="padding: 5px 10px;"><a href="{{ path('open_compte_pro',{'id':student.id}) }}"><i class="fa fa-mail-forward"></i></a></button></td>
+                                </tr>
+                            {% else %}
+                                <tr class="text-center">
+                                    <td colspan="9">Aucune donnée disponible</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+{% endblock %}

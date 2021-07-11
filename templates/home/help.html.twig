@@ -1,0 +1,60 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Contacter nous{% endblock %}
+{% block pageHeader %}
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Aides</h5>
+                        <p class="m-b-0">Consulter pour vous aider</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('home') }}"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#!">Aides</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="page-wrapper">
+        <div class="page-body">
+            <div class="card">
+                <div class="card-block table-border-style">
+                    <div class="row">
+                        <div class="com-md-12">
+                            <h3>Comment ça marche studenpro ?</h3>
+                            <h4>Je suis étudiant/élève - J ’ai besoin d’aide :</h4>
+                            <p style="font-size: medium">Créer votre compte en quelques clics, et trouver un de nos
+                                étudiants spécialisés en la matière pour vous aider à traiter vos devoirs.
+                                Publier votre devoir et attendez en quelques minutes pour que nos studenpros (étudiants
+                                spécialisés) font leurs offres.
+                                Consultez librement les profils et choisissez votre fantastique studenpro selon vos
+                                critères (tarifs, diplôme, avis…).</p>
+                            <h4>Je suis étudiant pro - Je peux aider :</h4>
+                            <p style="font-size: medium">Faites votre demande de préinscription avec votre et les
+                                matières que vous connaissez mieux.
+                                Après études de dossier, un de nos agents vous contactera et vous fournira vos
+                                identifiants de connexion,
+                                Sur votre compte, nous vous transmettons couramment des demandes d’élèves et étudiants
+                                qui répondent à votre profil ; vous n’avez qu’à faire votre offre de prestation pour les
+                                services auxquels vous pensez pouvoir résoudre.</p>
+
+                            <h3>D’autres problèmes ?</h3>
+                            <p style="font-size: medium">Contactez-nous sur : contact@studenpro.fr</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

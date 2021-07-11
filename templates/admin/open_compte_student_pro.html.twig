@@ -1,0 +1,104 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Création compte Pro{% endblock %}
+
+{% block pageHeader %}
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Création compte pro</h5>
+                        <p class="m-b-0">Ouvrir un compte pro</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('home') }}"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#!">Accueil</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+
+    <div class="page-wrapper">
+        <div class="page-body">
+            <div class="card">
+                <div class="card-block table-border-style">
+                    <div class="table-responsive">
+
+                        {{ form_start(openCompteProForm, {'attr': {'class': 'form-group pt-10 validate-form' }}) }}
+
+                            <div style="background-color: white" class="form-group" data-validate="Un adresse email valide est requis: ex@abc.xyz">
+                                <span >{{ form_label(openCompteProForm.email) }}</span>
+                                {{ form_widget(openCompteProForm.email, {'attr': {'class': 'form-control'}}) }}
+
+
+                                {{ form_errors(openCompteProForm.email) }}
+                            </div>
+                            <div style="background-color: white" class="form-group" data-validate="Ce champ est requis">
+                                <span>{{ form_label(openCompteProForm.password.first) }}</span>
+                                {{ form_widget(openCompteProForm.password.first, {'attr': {'class': 'form-control'}}) }}
+
+
+                                {{ form_errors(openCompteProForm.password.first) }}
+                            </div>
+                            <div style="background-color: white" class="form-group" data-validate="Ce champ est requis">
+                                <span>{{ form_label(openCompteProForm.password.second) }}</span>
+                                {{ form_widget(openCompteProForm.password.second, {'attr': {'class': 'form-control'}}) }}
+
+                                {{ form_errors(openCompteProForm.password.second) }}
+                            </div>
+                            <button class="btn btn-success" >Valider</button>
+
+                        {{ form_rest(openCompteProForm) }}
+                        {{ form_end(openCompteProForm) }}
+
+                      {#  <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Prénom(s)</th>
+                                <th>Contact</th>
+                                <th>Niveau d'étude</th>
+                                <th>Diplôme</th>
+                                <th>Spécialité</th>
+                                <th>CV</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for student in students|reverse %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ student.name|upper }}</td>
+                                    <td>{{ student.firstname|capitalize }}</td>
+                                    <td>{{ student.number }}</td>
+                                    <td>{{ student.levelStudyOccuped == 'university' ? 'Université' : (student.levelStudyOccuped == 'high_school' ? 'Lycée' : 'Collège') }}</td>
+                                    <td>{{ student.levelStudy|capitalize }}</td>
+                                    <td>{{ student.speciality|capitalize }}</td>
+                                    <td><a title="télécharger" href="{{ asset('uploads/cv/' ~ student.fileCv) }}" class="btn btn-secondary d-inline-block" target="_blank" download style="padding: 5px 10px;"><i class="fa fa-download m-0"></i></a></td>
+                                    <td><button class="btn btn-success" title="valider" style="padding: 5px 10px;"><i class="fa fa-mail-forward"></i></button></td>
+                                </tr>
+                            {% else %}
+                                <tr class="text-center">
+                                    <td colspan="9">Aucune donnée disponible</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+{% endblock %}

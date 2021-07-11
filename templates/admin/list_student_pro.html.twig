@@ -1,0 +1,97 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Etudiant Pro{% endblock %}
+{% block pageHeader %}
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Etudiant pro</h5>
+                        <p class="m-b-0">Liste de nos étudiants pro</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('home') }}"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#!">Accueil</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+
+    <div class="page-wrapper">
+        <div class="page-body">
+            <div class="card">
+                <div class="card-block table-border-style">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Prénom(s)</th>
+                                <th>Contact</th>
+                                <th>Niveau d'étude</th>
+                                <th>Diplôme</th>
+                                <th>Spécialité</th>
+                                <th>CV</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for student in students %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ student.name|upper }}</td>
+                                    <td>{{ student.firstname|capitalize }}</td>
+                                    <td>{{ student.number }}</td>
+                                    <td>{{ student.levelStudyOccuped == 'university' ? 'Université' : (student.levelStudyOccuped == 'high_school' ? 'Lycée' : 'Collège') }}</td>
+                                    <td>{{ student.levelStudy|capitalize }}</td>
+                                    <td><div class="d-flex flex-wrap">
+                                            {% for s in student.specialties %}
+                                            <span>{{ s.matiere.nom }}{% if loop.index != loop.last %},&nbsp;{% endif %}</span>
+                                        {% endfor %}</span></div></td>
+                                    <td>
+                                        <a href="{{ asset('uploads/cv/' ~ subject.fileCv) }}" class="btn btn-primary m-r-5 view"  data-toggle="modal" data-target="#pdfViewerModal" style="padding: 5px 10px;"><i class="fa fa-eye m-0"></i></a>
+                                        <a title="télécharger" href="{{ asset('uploads/cv/' ~ student.fileCv) }}" class="btn btn-secondary d-inline-block" target="_blank" download style="padding: 5px 10px;"><i class="fa fa-download m-0"></i></a></td>
+                                </tr>
+                            {% else %}
+                                <tr class="text-center">
+                                    <td colspan="8">Aucune donnée disponible</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="pdfViewerModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="overflow: auto; max-height: 70vh">
+                    <canvas id="pdfViewer"></canvas>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+    <script src="{{ asset('layout/assets/js/pdf-view.js') }}"></script>
+{% endblock %}

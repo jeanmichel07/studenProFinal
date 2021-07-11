@@ -1,0 +1,135 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Nouveau sujet{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('layout/assets/js/Date-Time-Picker-Bootstrap-4/build/css/bootstrap-datetimepicker.min.css') }}"/>
+    <style>
+        .lab {
+            background-color: #488aff;
+            color: #FFFFFF;
+            padding: 0.5rem;
+            border-radius: 0.3rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+    </style>
+{% endblock %}
+{% block pageHeader %}
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Nouveau sujet</h5>
+                        <p class="m-b-0">Ajouter un nouveau sujet</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('home') }}"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#!">Mes sujets</a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#!">Nouveau sujet</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="page-wrapper">
+        <div class="page-body">
+            <div class="card">
+                <div class="card-block">
+                    <div class="">
+                        {% for message in app.session.flashbag.get('success') %}
+                            <div class="alert mx-1 alert-success alert-dismissible fade show" >
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                        {{ form_start(form, {attr: {'enctype':'multipart/form-data', 'id': 'form_subject'}}) }}
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" >Matière</label>
+                            <div class="col-sm-10">
+                                <input type="text" list="list" class="form-control" name="matiere">
+                                <datalist id="list">
+                                    {% for m in matiere %}
+                                    <option value="{{ m.nom }}">
+                                    {% endfor %}
+                                    <option value="Autre">
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {{ form_label(form.delay_of_treatement, '', {'label_attr': {'class': 'col-sm-2 col-form-label'}}) }}
+                            <div class="col-sm-10">
+                                {{ form_widget(form.delay_of_treatement, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-check col-sm-12">
+                            {{ form_widget(form.explication_visio, {'attr': {'class': 'form-check-input'}}) }}
+                            {{ form_label(form.explication_visio, '', {'label_attr': {'class': 'form-check-label'}}) }}
+                        </div>
+                        <div class="form-group row" style="display: none">
+                            <label for="publication_student_availability" class="col-sm-2 col-form-label">Disponibilité</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="publication_student_availability" name="publication_student_availability">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="upload" class="lab"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
+                                <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z"/>
+                                </svg> Pièce jointe <span style="color: #000000">( .pdf, .docx, .doc )</span></label>
+                            <input class="form-control" style="visibility: hidden; height: 0; width: 0;" id="upload" type="file" name="file" accept="application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document" required />
+                            <div class="fileName-student"></div>
+                        </div>
+                        <button class="btn w-100 btn-primary" type="submit" name="btn-save-pub">Envoyer la demande d'aide</button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js" integrity="sha512-UdIMMlVx0HEynClOIFSyOrPggomfhBKJE28LKl8yR3ghkgugPnG6iLfRfHwushZl1MOPSY6TsuBDGPK2X4zYKg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/localization/messages_fr.min.js" integrity="sha512-O4IbKhkgn9LcZRHg1cAVXj2LEA4ywCsw6UOCa3gQmnCz7bHer98U5/IDBgHc9mlISEfuMeP/F6FrQ0ILjnj3Bg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/fr.min.js" integrity="sha512-RAt2+PIRwJiyjWpzvvhKAG2LEdPpQhTgWfbEkFDCo8wC4rFYh5GQzJBVIFDswwaEDEYX16GEE/4fpeDNr7OIZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('layout/assets/js/Date-Time-Picker-Bootstrap-4/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script>
+        const verificationChecked = function () {
+            const checkBox = document.getElementById('publication_student_explication_visio')
+            if (checkBox.checked === true){
+                $('#publication_student_availability').closest('.form-group').show()
+            } else {
+                $('#publication_student_availability').closest('.form-group').hide()
+            }
+        }
+        $('#publication_student_explication_visio').on('load', verificationChecked)
+        $('#publication_student_explication_visio').on('click', verificationChecked)
+        $(function () {
+            $('#publication_student_availability').datetimepicker({
+                locale: 'fr',
+                icons: {
+                    time:'fas fa-clock',
+                    date:'fas fa-calendar-times',
+                    up:'fas fa-chevron-up',
+                    down:'fas fa-chevron-down',
+                    previous:'fas fa-chevron-left',
+                    next:'fas fa-chevron-right',
+                    today:'fas fa-crosshairs',
+                    clear:'fas fa-trash',
+                    close:'fas fa-times'
+                },
+                minDate: moment().add('d', 1).toDate()
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}A Propos{% endblock %}
+{% block pageHeader %}
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">A propos</h5>
+                        <p class="m-b-0">A propos de nous</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('home') }}"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#!">A propos de nous</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="page-wrapper">
+        <div class="page-body">
+            <div class="card">
+                <div class="card-block table-border-style">
+                    <div class="wrapper">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4>1-) Qui sommes-nous ?</h4>
+                                <p style="font-size: medium">
+                                    Studenpro est une nouvelle plateforme qui met en relation des étudiants spécialisés
+                                    et d’autres étudiants ou élèves en difficultés face aux devoirs, exercices ou tout
+                                    problèmes dans le cadre de leurs études.<br>
+                                    Nous appelons communément nos étudiants spécialisés des studenpros.
+
+                                </p>
+                                <h4>2-) Pour qui ?</h4>
+                                <p style="font-size: medium">
+                                    Studenpro est conçu par les étudiants, pour les étudiants et élèves afin de
+                                    faciliter l’éducation et de la rendre accessible à tous.
+
+                                </p>
+                                <h4>3-) Les mentions légales</h4>
+                                {% include 'conditions/STUDENPRO-CGU-ET-POLITIQUE-DE-CONFIDENTIALITE.html.twig' %}
+
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="dbox w-100 text-center">
+                                    <div class="icon d-flex align-items-center justify-content-center">
+                                        <span class="fa fa-phone"></span>
+                                    </div>
+                                    <div class="text">
+                                        <p><span>Téléphone:</span> <a href="tel://0766154064">0766154064 </a> (7/7j et
+                                            24h/24)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="dbox w-100 text-center">
+                                    <div class="icon d-flex align-items-center justify-content-center">
+                                        <span class="fa fa-paper-plane"></span>
+                                    </div>
+                                    <div class="text">
+                                        <p><span>Email:</span> <a href="mailto:contact@studenpro.fr">contact@studenpro.fr</a>/<a
+                                                    href="mailto:studenpro@outlook.fr">studenpro@outlook.fr</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p style="font-size: medium">Suivez nous sur: </p>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="dbox w-100 text-center">
+                                    <div class="icon d-flex align-items-center justify-content-center">
+
+                                        <span class="fab fa-facebook-f"></span>
+                                    </div>
+                                    <div class="text">
+                                        <p><a href="www.facebook.com/studenPro">FB </a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="dbox w-100 text-center">
+                                    <div class="icon d-flex align-items-center justify-content-center">
+                                        <span class="fab fa-instagram"></span>
+                                    </div>
+                                    <div class="text">
+                                        <p><a href="instagram.com">Instagram</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="dbox w-100 text-center">
+                                    <div class="icon d-flex align-items-center justify-content-center">
+                                        <span class="fab fa-youtube"></span>
+                                    </div>
+                                    <div class="text">
+                                        <p><a href="youtube.com">Youtube</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

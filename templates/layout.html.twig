@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('layout/assets/css/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('layout/assets/pages/waves/css/waves.min.css') }} " type="text/css" media="all">
+    <link rel="stylesheet" type="text/css" href="{{ asset('layout/assets/icon/themify-icons/themify-icons.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('layout/assets/css/style.css') }} ">
+
+    {% block stylesheets %}
+    {% endblock %}
+</head>
+<body>
+{% set profile = app.user.pictureStudent is not null or app.user.pictureStudent|trim != '' ? app.user.pictureStudent : 'default.png' %}
+<div class="theme-loader">
+    <div class="loader-track">
+        <div class="preloader-wrapper">
+            <div class="spinner-layer spinner-blue">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+            <div class="spinner-layer spinner-red">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-yellow">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-green">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="pcoded" class="pcoded">
+    <div class="pcoded-overlay-box"></div>
+    <div class="pcoded-container navbar-wrapper">
+        <nav class="navbar header-navbar pcoded-header">
+            <div class="navbar-wrapper">
+                <div class="navbar-logo">
+                    <a class="mobile-menu waves-effect waves-light" id="mobile-collapse" href="#!">
+                        <i class="ti-menu"></i>
+                    </a>
+                    <div class="mobile-search waves-effect waves-light">
+                        <div class="header-search">
+                            <div class="main-search morphsearch-search">
+                                <div class="input-group">
+                                    <span class="input-group-addon search-close"><i class="ti-close"></i></span>
+                                    <input type="text" class="form-control" placeholder="Enter Keyword">
+                                    <span class="input-group-addon search-btn"><i class="ti-search"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ path('home') }}" class="logo">
+                        <img class="img-fluid" src="{{ asset('layout/assets/images/logo.png') }}" alt="Theme-Logo" width="65px" />
+                    </a>
+                    <a class="mobile-options waves-effect waves-light">
+                        <i class="ti-more"></i>
+                    </a>
+                </div>
+
+                <div class="navbar-container container-fluid">
+                    <ul class="nav-left">
+                        <li>
+                            <div class="sidebar_toggle"><a href="javascript:void(0)"><i class="ti-menu"></i></a></div>
+                        </li>
+                        <li class="header-search">
+                            <div class="main-search morphsearch-search">
+                                <div class="input-group">
+                                    <span class="input-group-addon search-close"><i class="ti-close"></i></span>
+                                    <input type="text" class="form-control">
+                                    <span class="input-group-addon search-btn"><i class="ti-search"></i></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#!" onclick="javascript:toggleFullScreen()" class="waves-effect waves-light">
+                                <i class="ti-fullscreen"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav-right">
+                        <li class="header-notification">
+                            <a href="#!" class="waves-effect waves-light">
+                                <i class="ti-bell"></i>
+                                <span class="badge bg-c-red"></span>
+                            </a>
+                            <ul class="show-notification">
+                                <li>
+                                    <h6>Notifications</h6>
+                                    <label class="label label-danger">New</label>
+                                </li>
+                                <li class="waves-effect waves-light">
+                                    <div class="media">
+                                        <img class="d-flex align-self-center img-radius" src="{{ asset('layout/assets/images/avatar-2.jpg') }}" alt="Generic placeholder image">
+                                        <div class="media-body">
+                                            <h5 class="notification-user">John Doe</h5>
+                                            <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer elit.</p>
+                                            <span class="notification-time">30 minutes ago</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="waves-effect waves-light">
+                                    <div class="media">
+                                        <img class="d-flex align-self-center img-radius" src="{{ asset('layout/assets/images/avatar-4.jpg') }}" alt="Generic placeholder image">
+                                        <div class="media-body">
+                                            <h5 class="notification-user">Joseph William</h5>
+                                            <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer elit.</p>
+                                            <span class="notification-time">30 minutes ago</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="waves-effect waves-light">
+                                    <div class="media">
+                                        <img class="d-flex align-self-center img-radius" src="{{ asset('layout/assets/images/avatar-3.jpg') }}" alt="Generic placeholder image">
+                                        <div class="media-body">
+                                            <h5 class="notification-user">Sara Soudein</h5>
+                                            <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer elit.</p>
+                                            <span class="notification-time">30 minutes ago</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="user-profile header-notification">
+                            <a href="#!" class="waves-effect waves-light">
+                                <img src="{{ asset('uploads/profile/' ~ profile) }}" class="img-radius" alt="User-Profile-Image">
+                                <span>{{ app.user is not null? app.user.name~' '~app.user.firstname: 'Anonyme' }}</span>
+                                <i class="ti-angle-down"></i>
+                            </a>
+                            <ul class="show-notification profile-notification">
+                                <li class="waves-effect waves-light">
+                                    <a href="#!">
+                                        <i class="ti-settings"></i> Settings
+                                    </a>
+                                </li>
+                                <li class="waves-effect waves-light">
+                                    <a href="user-profile.html">
+                                        <i class="ti-user"></i> Profil
+                                    </a>
+                                </li>
+                                <li class="waves-effect waves-light">
+                                    <a href="{{ path('app_logout') }}">
+                                        <i class="ti-layout-sidebar-left"></i> Déconnexion
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="pcoded-main-container">
+            <div class="pcoded-wrapper">
+                <nav class="pcoded-navbar">
+                    <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
+                    <div class="pcoded-inner-navbar main-menu">
+                        <div class="">
+                            <div class="main-menu-header">
+                                <img class="img-80 img-radius" src="{{ asset('uploads/profile/' ~ profile) }}" alt="User-Profile-Image">
+                                <div class="user-details">
+                                    <span id="more-details">{{ app.user is not null? app.user.name~' '~app.user.firstname: 'Anonyme' }}<i class="fa fa-caret-down"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="main-menu-content">
+                                <ul>
+                                    <li class="more-details">
+                                        <a href="#"><i class="ti-user"></i>View Profile</a>
+                                        <a href="#!"><i class="ti-settings"></i>Settings</a>
+                                        <a href="{{ path('app_logout') }}"><i class="ti-layout-sidebar-left"></i>Déconnexion</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="p-15 p-b-0">
+                            <form class="form-material">
+                                <div class="form-group form-primary">
+                                    <input type="text" name="footer-email" class="form-control" required="">
+                                    <span class="form-bar"></span>
+                                    <label class="float-label"><i class="fa fa-search m-r-10"></i>Search Friend</label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Menu</div>
+                        {% if is_granted('ROLE_STUDENT') == true %}
+                            {# menu start #}
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li{% if app.request.get('_route') == 'home' %} class="active"{% endif %}>
+                                    <a href="{{ path('home') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Tableau de bord</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+                                <li class="pcoded-hasmenu{% if app.request.get('_route') in ['newpub', 'subject_in_progress', 'subject_treated'] %} active pcoded-trigger{% endif %}">
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
+                                        <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">Mes sujets</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                    <ul class="pcoded-submenu">
+                                        <li{% if app.request.get('_route') == 'newpub' %} class="active"{% endif %}>
+                                            <a href="{{ path('newpub') }}" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Nouveau sujet</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        <li{% if app.request.get('_route') == 'subject_in_progress' %} class="active"{% endif %}>
+                                            <a href="{{ path('subject_in_progress') }}" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">En cours</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        <li{% if app.request.get('_route') == 'subject_treated' %} class="active"{% endif %}>
+                                            <a href="{{ path('subject_treated') }}" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Traités</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            {# menu end #}
+                        {% elseif is_granted('ROLE_STUDENT_PRO') == true %}
+                            {# menu start #}
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li{% if app.request.get('_route') == 'home' %} class="active"{% endif %}>
+                                    <a href="{{ path('home') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Tableau de bord</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+                                <li class="pcoded-hasmenu">
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
+                                        <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">Mes sujets</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                    <ul class="pcoded-submenu">
+                                        <li class=" ">
+                                            <a href="accordion.html" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert" style="text-transform: capitalize">À traiter</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        <li class=" ">
+                                            <a href="breadcrumb.html" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Traités</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            {# menu end #}
+                        {% elseif is_granted('ROLE_ADMIN') == true %}
+                            {# menu start #}
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li{% if app.request.get('_route') == 'home' %} class="active"{% endif %}>
+                                    <a href="{{ path('home') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Tableau de bord</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+                                <li class="pcoded-hasmenu{% if app.request.get('_route') in ['list_students', 'list_studen_pro'] %} active pcoded-trigger{% endif %}">
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-user"></i></span>
+                                        <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">Nos étudiants</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                    <ul class="pcoded-submenu">
+                                        <li{% if app.request.get('_route') == 'list_studen_pro' %} class="active"{% endif %}>
+                                            <a href="{{ path('list_studen_pro') }}" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert" style="text-transform: capitalize">Spécialisés</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        <li{% if app.request.get('_route') == 'list_students' %} class="active"{% endif %}>
+                                            <a href="{{ path('list_students') }}" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Simple</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li{% if app.request.get('_route') == 'list_meeting_request' %} class="active"{% endif %}>
+                                    <a href="{{ path('list_meeting_request') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-info-alt"></i></span>
+                                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Demande d'entretien</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+                                <li{% if app.request.get('_route') == 'demande_aides' %} class="active"{% endif %}>
+                                    <a href="{{ path('demande_aides') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-info-alt"></i></span>
+                                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Demande d'aides</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-ink-pen"></i></span>
+                                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Proposition</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+                                <li class="pcoded-hasmenu{% if app.request.get('_route') in ['manage-matiere', 'matiere'] %} active pcoded-trigger{% endif %}">
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-settings"></i></span>
+                                        <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">Paramètre</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                    <ul class="pcoded-submenu">
+                                        <li{% if app.request.get('_route') in ['manage-matiere', 'matiere'] %} class="active"{% endif %}>
+                                            <a href="{{ path('matiere') }}" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert" style="text-transform: capitalize">Matières</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            {# menu end #}
+                        {% endif %}
+                        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Informations</div>
+                        <ul class="pcoded-item pcoded-left-item">
+                            <li{% if app.request.get('_route') == 'contact_us' %} class="active"{% endif %}>
+                                <a href="{{ path('contact_us') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-help"></i></span>
+                                    <span class="pcoded-mtext" data-i18n="nav.form-components.main">A propos</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li{% if app.request.get('_route') == 'help' %} class="active"{% endif %}>
+                                <a href="{{ path('help') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-info"></i></span>
+                                    <span class="pcoded-mtext" data-i18n="nav.form-components.main">Aides</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="pcoded-content">
+                    <!-- Page-header start -->
+                    {% block pageHeader %}{% endblock %}
+                    <!-- Page-header end -->
+                    <div class="pcoded-inner-content">
+                        <!-- Main-body start -->
+                        <div class="main-body">
+                            {% block body %}
+                                {% block content %}
+                                {% endblock %}
+                            {% endblock %}
+                            <div id="styleSelector"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{ asset('layout/assets/js/jquery/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('layout/assets/js/jquery-ui/jquery-ui.min.js') }} "></script>
+<script type="text/javascript" src="{{ asset('layout/assets/js/popper.js/popper.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('layout/assets/js/bootstrap/js/bootstrap.min.js') }} "></script>
+<script type="text/javascript" src="{{ asset('layout/assets/pages/waves/js/waves.min.js') }} "></script>
+<script src="{{ asset('layout/assets/js/pcoded.min.js') }}"></script>
+{% block javascripts %}
+{% endblock %}
+<script src="{{ asset('layout/assets/js/vertical-layout.min.js') }} "></script>
+<script type="text/javascript" src="{{ asset('layout/assets/js/script.js') }} "></script>
+
+</body>
+</html>

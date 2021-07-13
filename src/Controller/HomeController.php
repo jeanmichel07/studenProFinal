@@ -17,15 +17,26 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         $user = $this->getUser();
-       //$firstconnex= $user->getFirstConnexion();
 
         if(is_null($user)){
             return $this->redirectToRoute('choices');
+        }else{
+            $role_user= $user->getRoles();
+            $firstconnex= $user->getFirstConnexion();
+            if($role_user==["ROLE_STUDENT_PRO"] && $firstconnex==true ){
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+                return $this->redirectToRoute('new_password');
+            }else{
+                return $this->render('home/index.html.twig', [
+                    'controller_name' => 'HomeController',
+                    // 'firstconnex'=>$firstconnex
+                ]);
+            }
         }
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-           // 'firstconnex'=>$firstconnex
-        ]);
+
     }
 
     /**

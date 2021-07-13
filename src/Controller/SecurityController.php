@@ -29,9 +29,12 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        if ($this->getUser()) {
+        $user = $this->getUser();
+
+        if ($user) {
             return $this->redirectToRoute('home');
         }
+
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -90,6 +93,7 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() and $form->isValid()){
             $user->setPassword($encoder->encodePassword($user, $request->get('passwords')['password']['first']));
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -97,6 +101,32 @@ class SecurityController extends AbstractController
         }
         return $this->render('security/reset_password.html.twig',[
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/new-password", name="new_password")
+     * @param Request $request
+     * @param UserRepository $userRepository
+     * @param UserPasswordEncoderInterface $encoder
+     * @return RedirectResponse|Response
+     */
+    public function newPassword(Request $request, UserRepository $userRepository, UserPasswordEncoderInterface $encoder){
+
+        $user = $this->getUser();
+      //  dd($user);
+        $forma = $this->createForm(PasswordsType::class, $user);
+        $forma->handleRequest($request);
+        if($forma->isSubmitted() and $forma->isValid()){
+            $user->setPassword($encoder->encodePassword($user, $request->get('passwords')['password']['first']));
+            $user->setFirstConnexion(false);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            return $this->redirectToRoute('app_login');
+        }
+        return $this->render('security/new_password_pro.html.twig',[
+            'forma' => $forma->createView()
         ]);
     }
 }

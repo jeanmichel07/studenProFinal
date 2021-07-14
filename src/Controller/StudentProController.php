@@ -73,7 +73,7 @@ class StudentProController extends AbstractController
         $user=$this->getUser();
         $iduser=$user->getId();
         $proposition = $linePropositionRepo->findBy(['User'=>$iduser]);
-
+        //dd($proposition);
         return $this->render('student_pro/subject_to_be_trated.html.twig', [
             'proposition' => $proposition
         ]);

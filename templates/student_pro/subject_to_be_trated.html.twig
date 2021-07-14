@@ -64,7 +64,14 @@
 
                                     </td>
                                     <td>
-                                        <a href="{{ path('make_proposition',{'id':p.id}) }}" class="btn btn-sm btn-primary">Proposer service</a>
+                                        {% if p.Prestations != null%}
+                                            <a href="#" class="btn btn-sm btn-success">Service Proposé</a>
+
+                                        {% else %}
+                                            <a href="{{ path('make_proposition',{'id':p.id}) }}" class="btn btn-sm btn-primary">Proposer service</a>
+
+                                        {% endif %}
+
                                     </td>
                                 </tr>
                             {% else %}

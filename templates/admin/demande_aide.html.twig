@@ -9,7 +9,7 @@
                 <div class="col-md-8">
                     <div class="page-header-title">
                         <h5 class="m-b-10">Demande d'aides</h5>
-                        <p class="m-b-0">Bienvenue sur la page de géstion de demande d'aides</p>
+                        <p class="m-b-0">Bienvenue sur la page de gestion de demande d'aides</p>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -64,7 +64,7 @@
 
                                         </td>
                                         <td>
-                                            <a href="#" class="btn btn-sm btn-primary">Proposer</a>
+                                            <a href="{{ path('proposition_subject_pro',{'id':p.id}) }}" class="btn btn-sm btn-primary">Proposer</a>
                                         </td>
                                     </tr>
                                 {% else %}

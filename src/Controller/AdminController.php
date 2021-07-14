@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\LineProposition;
+use App\Entity\Proposition;
+use App\Entity\PublicationStudent;
 use App\Repository\PublicationStudentRepository;
+use App\Repository\SpecialtyRepository;
 use App\Repository\UserRepository;
 use App\Entity\User;
 use App\Form\OpenCompteProType;
@@ -126,5 +130,45 @@ class AdminController extends AbstractController
         return $this->render('admin/open_compte_student_pro.html.twig', [
             'openCompteProForm' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route ("/{id}/proposition-envoyer", name="proposition_subject_pro")
+     * @param PublicationStudent $publication_student
+     * @param UserRepository $studen_Pro
+     * @param SpecialtyRepository $specialityPro
+     * @return Response
+     */
+    public function proposerAuEtudiantPro(Request $request, PublicationStudent $publication_student,UserRepository $studen_Pro, SpecialtyRepository $specialityPro): Response
+    {
+        $id_matiere= $publication_student->getMatiere();
+     //   dd($publication_student->getPropositions());
+        $studentProSpeciality= $specialityPro->findBy(['matiere'=> $id_matiere]);
+        $user=$studentProSpeciality[0]->getUser();
+
+        $userRepo= $studen_Pro->findBy(['id'=>$user]);
+        //dd($userRepo);
+        if($studentProSpeciality){
+            $proposition = new Proposition();
+            $proposition->setPublicationStudent($publication_student);
+            $propro=$this->getDoctrine()->getManager();
+            $propro->persist($proposition);
+            $propro->flush();
+
+            $lineProposition= new LineProposition();
+            $lineProposition->setProposition($proposition);
+            $lineProposition->setUser($userRepo[0]);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($lineProposition);
+            $entityManager->flush();
+            //Proposition en attente de validation de l'admin state=0, Proposition envoyer vers l'étudiant Pro => state =1,
+            $publication_student->setState(1);
+            $em= $this->getDoctrine()->getManager();
+            $entityManager->persist($publication_student);
+            $entityManager->flush();
+            return $this->redirectToRoute('demande_aides');
+        }
+
+        return $this->redirectToRoute('demande_aides');
     }
 }

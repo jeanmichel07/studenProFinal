@@ -38,6 +38,11 @@ class LineProposition
      */
     private $commentaire;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Prestation::class, mappedBy="lineProposition", cascade={"persist", "remove"})
+     */
+    private $prestations;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +80,23 @@ class LineProposition
     public function setCommentaire(?string $commentaire): self
     {
         $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    public function getPrestations(): ?Prestation
+    {
+        return $this->prestations;
+    }
+
+    public function setPrestations(Prestation $prestations): self
+    {
+        // set the owning side of the relation if necessary
+        if ($prestations->getLineProposition() !== $this) {
+            $prestations->setLineProposition($this);
+        }
+
+        $this->prestations = $prestations;
 
         return $this;
     }

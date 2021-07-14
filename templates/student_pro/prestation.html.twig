@@ -1,0 +1,60 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Sujet à traiter{% endblock %}
+
+{% block pageHeader %}
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Presation</h5>
+                        <p class="m-b-0">Tarif sur le sujet</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('home') }}"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#!">Accueil</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+
+    <div class="page-wrapper">
+        <div class="page-body">
+            <div class="card">
+                <div class="card-block table-border-style">
+                    <div class="table-responsive">
+                        {{ form_start(prestationForm, {'attr': {'class': 'form-group pt-10 validate-form' }}) }}
+                        <div style="background-color: white" class="form-group" data-validate="Ce champ est requis">
+                            <span>{{ form_label(prestationForm.lineProposition) }}</span>
+                            {{ form_widget(prestationForm.lineProposition, {'attr': {'class': 'form-control'},'value': "{{ idLine }}"}) }}
+
+                            {{ form_errors(prestationForm.lineProposition) }}
+                        </div>
+
+                        <div style="background-color: white" class="form-group" data-validate="Ce champ est requis">
+                            <span>{{ form_label(prestationForm.tarif) }}</span>
+                            {{ form_widget(prestationForm.tarif, {'attr': {'class': 'form-control'}}) }}
+
+
+                            {{ form_errors(prestationForm.tarif) }}
+                        </div>
+
+                        <button class="btn btn-success" >Valider</button>
+
+                        {{ form_rest(prestationForm) }}
+                        {{ form_end(prestationForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

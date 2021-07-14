@@ -84,7 +84,7 @@ class AdminController extends AbstractController
      */
     public function demandeAides(PublicationStudentRepository $userRepository): Response
     {
-        $pub = $userRepository->findBy(['state'=>0]);
+        $pub = $userRepository->findBy(['state'=>2]);
         return $this->render('admin/demande_aide.html.twig', [
             'pub' => $pub
         ]);

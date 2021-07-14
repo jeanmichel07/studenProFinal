@@ -20,11 +20,11 @@ class PrestationType extends AbstractType
             ->add('lineProposition',EntityType::class,[
                 'class' => LineProposition::class,
                 'choice_label' => 'id',
-               // 'disabled' =>true,
+                'disabled' =>true,
                 'query_builder' => function (EntityRepository $er) use ($options){
                     return $er->createQueryBuilder('h')
-                        ->leftJoin('h.lineProposition', 's')
-                        ->where('s.id =: idLine')
+                   //     ->leftJoin('h.lineProposition', 's')
+                        ->where('h.id = :idLine')
                         ->setParameter('idLine',$options['idLine']);
                 }
             ])

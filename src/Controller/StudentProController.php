@@ -85,13 +85,20 @@ class StudentProController extends AbstractController
      */
     public function subjectAccepted(Request $request,PrestationRepository $prestationRepo, LineProposition $lineProposition)
     {
-      //  $idLine= $lineProposition->getId();
+        $idLine= $lineProposition->getId();
         $prestation = new Prestation();
 
         $form= $this->createForm(PrestationType::class,$prestation, ['idLine' =>  $lineProposition->getId()]);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            dd($request);
+           $tarif=$prestation->getTarif();
+
+            $prestation->setLineProposition($lineProposition);
+            $prestation->setTarif($tarif);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($prestation);
+            $entityManager->flush();
+            return $this->redirectToRoute('subject_prorosed');
         }
         return $this->render('student_pro/prestation.html.twig',[
             'prestationForm' => $form->createView(),

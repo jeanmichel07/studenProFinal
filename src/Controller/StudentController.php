@@ -108,4 +108,14 @@ class StudentController extends AbstractController
             'subjects' => $subjects
         ]);
     }
+
+    /**
+     * @Route("/proposition", name="proposition")
+     * @param Request $request
+     * @return Response
+     */
+    public function proposition(Request $request): Response
+    {
+        return $this->render('student/proposition.html.twig');
+    }
 }

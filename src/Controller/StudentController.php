@@ -121,9 +121,9 @@ class StudentController extends AbstractController
     public function proposition(PublicationStudent $publicationStudent,Request $request, PropositionRepository $repository): Response
     {
         $proposition = $repository->findBy(['PublicationStudent'=> $publicationStudent]);
-        // dd($proposition[0]->getLinePropositions()[0]->getUser()->getSpecialties());
+        // dd($proposition[0]->getLinePropositions()[0]->getPrestations());
         return $this->render('student/proposition.html.twig',[
-            'proposition' => $proposition[0]->getLinePropositions()
+            'proposition' => $proposition[0]->getLinePropositions()[0]->getPrestations() != null ? $proposition[0]->getLinePropositions() : []
         ]);
     }
 }

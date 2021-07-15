@@ -12,6 +12,7 @@ use App\Repository\PrestationRepository;
 use App\Repository\PublicationStudentRepository;
 use App\Repository\SpecialtyRepository;
 use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,13 +43,14 @@ class StudentProController extends AbstractController
         foreach ($pub as $p ) {
             $id_matiere = $p->getMatiere();
             $publication_stud =$publicationRepo->findBy(['id' =>$p->getId()]);
-            $studentProSpeciality = $specialityPro->findBy(['matiere' => $id_matiere]);
-            $user = $studentProSpeciality[0]->getUser();
+            $studentProSpeciality = $specialityPro->findOneBy(['matiere' => $id_matiere]);
+            $user = $studentProSpeciality != null ? $studentProSpeciality->getUser() : null;
 
-            $userRepo = $userRepo->findBy(['id' => $user]);
-            //dd($userRepo);
+
+            $userRepos = $userRepo->findOneBy(['id' => $user]);
+
             if ($studentProSpeciality) {
-               // dd($publication_student[0]);
+
                 $proposition = new Proposition();
                 $proposition->setPublicationStudent($publication_stud[0]);
                 $propro = $this->getDoctrine()->getManager();
@@ -57,11 +59,10 @@ class StudentProController extends AbstractController
                 $publication_student=$publication_stud[0];
                 $lineProposition = new LineProposition();
                 $lineProposition->setProposition($proposition);
-                $lineProposition->setUser($userRepo[0]);
+                $lineProposition->setUser($userRepos);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($lineProposition);
                 $entityManager->flush();
-                //Proposition en attente de validation de l'admin state=0, Proposition envoyer vers l'étudiant Pro => state =1,
 
                 $publication_student->setState(1);
                 $em = $this->getDoctrine()->getManager();
@@ -82,6 +83,7 @@ class StudentProController extends AbstractController
     /**
      * @Route ("{id}/student/pro/subject-accepter", name="make_proposition")
      * @param PrestationRepository $prestationRepo
+     * @return RedirectResponse|Response
      */
     public function subjectAccepted(Request $request,PrestationRepository $prestationRepo, LineProposition $lineProposition)
     {
@@ -102,7 +104,6 @@ class StudentProController extends AbstractController
         }
         return $this->render('student_pro/prestation.html.twig',[
             'prestationForm' => $form->createView(),
-          //  'idLine' =>$idLine
         ]);
     }
 }

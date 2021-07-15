@@ -84,7 +84,7 @@ class AdminController extends AbstractController
      */
     public function demandeAides(PublicationStudentRepository $userRepository): Response
     {
-        $pub = $userRepository->findBy(['state'=>2]);
+        $pub = $userRepository->findBy(['matiere'=>null]);
         return $this->render('admin/demande_aide.html.twig', [
             'pub' => $pub
         ]);
@@ -143,10 +143,10 @@ class AdminController extends AbstractController
     {
         $id_matiere= $publication_student->getMatiere();
      //   dd($publication_student->getPropositions());
-        $studentProSpeciality= $specialityPro->findBy(['matiere'=> $id_matiere]);
-        $user=$studentProSpeciality[0]->getUser();
+        $studentProSpeciality= $specialityPro->findOneBy(['matiere'=> $id_matiere]);
+        $user=$studentProSpeciality != null ? $studentProSpeciality->getUser() : null;
 
-        $userRepo= $studen_Pro->findBy(['id'=>$user]);
+        $userRepos= $studen_Pro->findOneBy(['id'=>$user]);
         //dd($userRepo);
         if($studentProSpeciality){
             $proposition = new Proposition();
@@ -157,7 +157,7 @@ class AdminController extends AbstractController
 
             $lineProposition= new LineProposition();
             $lineProposition->setProposition($proposition);
-            $lineProposition->setUser($userRepo[0]);
+            $lineProposition->setUser($userRepos);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($lineProposition);
             $entityManager->flush();

@@ -50,7 +50,7 @@
                                     <tr>
                                         <td>{{ p.id }}</td>
                                         <td>{{ p.student.name~' '~p.student.firstname }}</td>
-                                        <td>{{ p.matiere.nom }}</td>
+                                        <td>Autre</td>
                                         <td>{{ p.explicationVisio == true? 'Oui': 'Non' }}</td>
                                         <td>{{ p.delayOfTreatement }}</td>
                                         <td>{{ p.availability|date('d/m/y - h:i') }}</td>
@@ -64,7 +64,7 @@
 
                                         </td>
                                         <td>
-                                            <a href="{{ path('proposition_subject_pro',{'id':p.id}) }}" class="btn btn-sm btn-primary">Proposer</a>
+                                            <a href="" class="btn btn-sm btn-primary">Valider</a>
                                         </td>
                                     </tr>
                                 {% else %}

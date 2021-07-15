@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\PublicationStudent;
 use App\Form\PublicationStudentType;
 use App\Repository\MatiereRepository;
+use App\Repository\PropositionRepository;
 use App\Repository\PublicationStudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,8 +36,9 @@ class StudentController extends AbstractController
 
     /**
      * @param Request $request
-     * @Route("/add-publication", name="newpub")
      * @return Response
+     * @throws \Exception
+     * @Route("/add-publication", name="newpub")
      */
     public function newPublication(Request $request): Response
     {
@@ -110,12 +112,18 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/proposition", name="proposition")
+     * @Route("/proposition/{id}", name="proposition")
+     * @param PublicationStudent $publicationStudent
      * @param Request $request
+     * @param PropositionRepository $repository
      * @return Response
      */
-    public function proposition(Request $request): Response
+    public function proposition(PublicationStudent $publicationStudent,Request $request, PropositionRepository $repository): Response
     {
-        return $this->render('student/proposition.html.twig');
+        $proposition = $repository->findBy(['PublicationStudent'=> $publicationStudent]);
+        // dd($proposition[0]->getLinePropositions()[0]->getUser()->getSpecialties());
+        return $this->render('student/proposition.html.twig',[
+            'proposition' => $proposition[0]->getLinePropositions()
+        ]);
     }
 }

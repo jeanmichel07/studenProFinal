@@ -34,44 +34,31 @@
         <div class="page-body">
             <div class="card">
                 <div class="card-block row">
-                    <div class="col-xl-4 col-md-6 col-sm-12">
-                        <div class="content">
-                            <div class="card-wrap">
-                                <div class="firstinfo"><img src="https://randomuser.me/api/portraits/lego/6.jpg" alt=""/>
-                                    <div class="profileinfo">
-                                        <h4>Francesco Moustache</h4>
-                                        <h3>Python Ninja</h3>
-                                        <div class="bio">
-                                            <span class="my-1">MATIÈRE: Math</span>
-                                            <span class="my-1">TARIF: 12 &euro;</span>
+                    {% for p in proposition %}
+                                    <div class="col-xl-4 col-md-6 col-sm-12">
+                                        <div class="content">
+                                            <div class="card-wrap">
+                                                <div class="firstinfo"><img src="https://randomuser.me/api/portraits/lego/6.jpg" alt=""/>
+                                                    <div class="profileinfo">
+                                                        <h4>{{ p.user.name~' '~p.user.firstname }}</h4>
+                                                        <h3>
+                                                            {% for s in p.user.specialties %}
+                                                            {{ s.matiere.nom~', ' }}
+                                                            {% endfor %}
+                                                        </h3>
+                                                        <div class="bio">
+                                                            {#<span class="my-1">MATIÈRE: Math</span>#}
+                                                            <span class="my-1">TARIF: {{ p.prestations.tarif }} &euro;</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="badgescard">
+                                                <button class="btn btn-primary">accepter</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="badgescard">
-                                <button class="btn btn-primary">accepter</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-md-6 col-sm-12">
-                        <div class="content">
-                            <div class="card-wrap">
-                                <div class="firstinfo"><img src="https://randomuser.me/api/portraits/lego/6.jpg" alt=""/>
-                                    <div class="profileinfo">
-                                        <h4>Francesco Moustache</h4>
-                                        <h3>Python Ninja</h3>
-                                        <div class="bio">
-                                            <span class="my-1">MATIÈRE: Math</span>
-                                            <span class="my-1">TARIF: 12 &euro;</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="badgescard">
-                                <button class="btn btn-primary">accepter</button>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

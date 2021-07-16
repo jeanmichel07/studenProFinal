@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Proposition;
+use App\Entity\PublicationStudent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,4 +48,18 @@ class PropositionRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function propositionWithPrestation()
+    {
+        $dql = $this->getEntityManager();
+
+        $query = $dql->createQuery("select pr from App\Entity\Proposition pr LEFT JOIN App\Entity\PublicationStudent p WITH p.id=pr.PublicationStudent LEFT JOIN App\Entity\LineProposition lp WITH lp.Proposition=p.id where  p.state NOT IN (:stateone , :statetwo )")
+                    ->setParameters([
+                        "stateone"=>2,
+                        "statetwo"=>3
+                    ]);
+
+        return $query->getResult();
+
+    }
 }

@@ -47,4 +47,15 @@ class PublicationStudentRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findState()
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.state = :val OR p.state = :state')
+            ->setParameter('val', 0)
+            ->setParameter('state', 4)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 }

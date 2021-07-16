@@ -5,16 +5,15 @@ namespace App\Controller;
 use App\Entity\LineProposition;
 use App\Entity\Prestation;
 use App\Entity\Proposition;
-use App\Entity\User;
 use App\Form\PrestationType;
 use App\Repository\LinePropositionRepository;
 use App\Repository\PrestationRepository;
 use App\Repository\PublicationStudentRepository;
 use App\Repository\SpecialtyRepository;
 use App\Repository\UserRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -32,48 +31,45 @@ class StudentProController extends AbstractController
 
     /**
      * @Route ("/student/pro/subject-a-traiter", name="subject_prorosed")
+     * @param Request $request
      * @param LinePropositionRepository $linePropositionRepo
-     * @param UserRepository $userRepo
      * @param PublicationStudentRepository $publicationRepo
+     * @param UserRepository $userRepo
+     * @param SpecialtyRepository $specialityPro
      * @return Response
      */
-    public function subjetProposerForMe (Request $request,LinePropositionRepository $linePropositionRepo, PublicationStudentRepository $publicationRepo, UserRepository $userRepo, SpecialtyRepository $specialityPro):Response
+    public function subjetProposerForMe(Request $request, LinePropositionRepository $linePropositionRepo, PublicationStudentRepository $publicationRepo, UserRepository $userRepo, SpecialtyRepository $specialityPro): Response
     {
-        $pub = $publicationRepo->findBy(['state'=>0]);
-        foreach ($pub as $p ) {
-            $id_matiere = $p->getMatiere();
-            $publication_stud =$publicationRepo->findBy(['id' =>$p->getId()]);
-            $studentProSpeciality = $specialityPro->findOneBy(['matiere' => $id_matiere]);
+        $pub = $publicationRepo->findState();
+        foreach ($pub as $p) {
+            $matiere = $p->getMatiere();
+            $publication_stud = $publicationRepo->findBy(['id' => $p->getId()]);
+            $studentProSpeciality = $specialityPro->findOneBy(['matiere' => $matiere]);
             $user = $studentProSpeciality != null ? $studentProSpeciality->getUser() : null;
-
 
             $userRepos = $userRepo->findOneBy(['id' => $user]);
 
             if ($studentProSpeciality) {
-
                 $proposition = new Proposition();
                 $proposition->setPublicationStudent($publication_stud[0]);
                 $propro = $this->getDoctrine()->getManager();
                 $propro->persist($proposition);
-                $propro->flush();
-                $publication_student=$publication_stud[0];
+                $publication_student = $publication_stud[0];
                 $lineProposition = new LineProposition();
                 $lineProposition->setProposition($proposition);
                 $lineProposition->setUser($userRepos);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($lineProposition);
-                $entityManager->flush();
 
                 $publication_student->setState(1);
-                $em = $this->getDoctrine()->getManager();
                 $entityManager->persist($publication_student);
                 $entityManager->flush();
             }
         }
-      //  dd($request);
-        $user=$this->getUser();
-        $iduser=$user->getId();
-        $proposition = $linePropositionRepo->findBy(['User'=>$iduser]);
+        //  dd($request);
+        $user = $this->getUser();
+        $iduser = $user->getId();
+        $proposition = $linePropositionRepo->findBy(['User' => $iduser]);
         //dd($proposition);
         return $this->render('student_pro/subject_to_be_trated.html.twig', [
             'proposition' => $proposition
@@ -82,18 +78,19 @@ class StudentProController extends AbstractController
 
     /**
      * @Route ("{id}/student/pro/subject-accepter", name="make_proposition")
+     * @param Request $request
      * @param PrestationRepository $prestationRepo
+     * @param LineProposition $lineProposition
      * @return RedirectResponse|Response
      */
-    public function subjectAccepted(Request $request,PrestationRepository $prestationRepo, LineProposition $lineProposition)
+    public function subjectAccepted(Request $request, PrestationRepository $prestationRepo, LineProposition $lineProposition)
     {
-        $idLine= $lineProposition->getId();
         $prestation = new Prestation();
 
-        $form= $this->createForm(PrestationType::class,$prestation, ['idLine' =>  $lineProposition->getId()]);
+        $form = $this->createForm(PrestationType::class, $prestation, ['idLine' => $lineProposition->getId()]);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-           $tarif=$prestation->getTarif();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $tarif = $prestation->getTarif();
 
             $prestation->setLineProposition($lineProposition);
             $prestation->setTarif($tarif);
@@ -102,7 +99,7 @@ class StudentProController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('subject_prorosed');
         }
-        return $this->render('student_pro/prestation.html.twig',[
+        return $this->render('student_pro/prestation.html.twig', [
             'prestationForm' => $form->createView(),
         ]);
     }

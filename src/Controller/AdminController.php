@@ -5,20 +5,18 @@ namespace App\Controller;
 use App\Entity\LineProposition;
 use App\Entity\Proposition;
 use App\Entity\PublicationStudent;
+use App\Entity\User;
+use App\Form\OpenCompteProType;
 use App\Repository\PublicationStudentRepository;
 use App\Repository\SpecialtyRepository;
 use App\Repository\UserRepository;
-use App\Entity\User;
-use App\Form\OpenCompteProType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Message;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -84,7 +82,7 @@ class AdminController extends AbstractController
      */
     public function demandeAides(PublicationStudentRepository $userRepository): Response
     {
-        $pub = $userRepository->findBy(['matiere'=>null]);
+        $pub = $userRepository->findBy(['matiere' => null, 'state' => 0]);
         return $this->render('admin/demande_aide.html.twig', [
             'pub' => $pub
         ]);
@@ -92,15 +90,20 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/{id}/ouvrir-compte-pro", name="open_compte_pro")
+     * @param Request $request
+     * @param User $user
      * @param UserRepository $userRepository
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param MailerInterface $mailer
      * @return Response
+     * @throws TransportExceptionInterface
      */
-    public function ouvrirComptePro(Request $request, User $user, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder, MailerInterface $mailer):Response
+    public function ouvrirComptePro(Request $request, User $user, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder, MailerInterface $mailer): Response
     {
-        $form= $this->createForm(OpenCompteProType::class,$user);
+        $form = $this->createForm(OpenCompteProType::class, $user);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            $passe_non_crypte=$form->get('password')->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $passe_non_crypte = $form->get('password')->getData();
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
@@ -134,36 +137,17 @@ class AdminController extends AbstractController
 
     /**
      * @Route ("/{id}/proposition-envoyer", name="proposition_subject_pro")
+     * @param Request $request
      * @param PublicationStudent $publication_student
-     * @param UserRepository $studen_Pro
-     * @param SpecialtyRepository $specialityPro
      * @return Response
      */
-    public function proposerAuEtudiantPro(Request $request, PublicationStudent $publication_student,UserRepository $studen_Pro, SpecialtyRepository $specialityPro): Response
+    public function proposerAuEtudiantPro(Request $request, PublicationStudent $publication_student): Response
     {
-        $id_matiere= $publication_student->getMatiere();
-     //   dd($publication_student->getPropositions());
-        $studentProSpeciality= $specialityPro->findOneBy(['matiere'=> $id_matiere]);
-        $user=$studentProSpeciality != null ? $studentProSpeciality->getUser() : null;
-
-        $userRepos= $studen_Pro->findOneBy(['id'=>$user]);
         //dd($userRepo);
-        if($studentProSpeciality){
-            $proposition = new Proposition();
-            $proposition->setPublicationStudent($publication_student);
-            $propro=$this->getDoctrine()->getManager();
-            $propro->persist($proposition);
-            $propro->flush();
-
-            $lineProposition= new LineProposition();
-            $lineProposition->setProposition($proposition);
-            $lineProposition->setUser($userRepos);
+        if ($publication_student !== null) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($lineProposition);
-            $entityManager->flush();
             //Proposition en attente de validation de l'admin state=0, Proposition envoyer vers l'étudiant Pro => state =1,
-            $publication_student->setState(1);
-            $em= $this->getDoctrine()->getManager();
+            $publication_student->setState(4);
             $entityManager->persist($publication_student);
             $entityManager->flush();
             return $this->redirectToRoute('demande_aides');

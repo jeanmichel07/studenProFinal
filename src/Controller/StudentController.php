@@ -52,6 +52,7 @@ class StudentController extends AbstractController
                 if (null != $matiere) {
                     $pub->setMatiere($matiere);
                 }
+
                 $file = pathinfo($_FILES['file']['name']);
                 $extensionProfil = $file['extension'];
                 $extensions_autorisees = array('pdf', 'doc', 'docx', 'PDF', 'DOC', 'DOCX');
@@ -118,11 +119,11 @@ class StudentController extends AbstractController
      * @param PropositionRepository $repository
      * @return Response
      */
-    public function proposition(PublicationStudent $publicationStudent,Request $request, PropositionRepository $repository): Response
+    public function proposition(PublicationStudent $publicationStudent, Request $request, PropositionRepository $repository): Response
     {
-        $proposition = $repository->findBy(['PublicationStudent'=> $publicationStudent]);
+        $proposition = $repository->findBy(['PublicationStudent' => $publicationStudent]);
         // dd($proposition[0]->getLinePropositions()[0]->getPrestations());
-        return $this->render('student/proposition.html.twig',[
+        return $this->render('student/proposition.html.twig', [
             'proposition' => $proposition[0]->getLinePropositions()[0]->getPrestations() != null ? $proposition[0]->getLinePropositions() : []
         ]);
     }

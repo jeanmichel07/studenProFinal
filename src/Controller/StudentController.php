@@ -105,7 +105,7 @@ class StudentController extends AbstractController
      */
     public function subjectTreated(Request $request, PublicationStudentRepository $publicationStudentRepository): Response
     {
-        $subjects = $publicationStudentRepository->findBy(['student' => $this->getUser(), 'state' => 1]);
+        $subjects = $publicationStudentRepository->findBy(['student' => $this->getUser(), 'state' => 3]);
         return $this->render('student/subject_treated.html.twig', [
             'subjects' => $subjects
         ]);
@@ -120,8 +120,10 @@ class StudentController extends AbstractController
      */
     public function proposition(PublicationStudent $publicationStudent,Request $request, PropositionRepository $repository): Response
     {
-        $proposition = $repository->findBy(['PublicationStudent'=> $publicationStudent]);
-        // dd($proposition[0]->getLinePropositions()[0]->getPrestations());
+       // $proposition = $repository->findBy(['PublicationStudent'=> $publicationStudent]);
+        $proposition = $repository->propositionWithPrestation();
+
+     //   dd($proposition[0]->getLinePropositions()[0]->getPrestations());
         return $this->render('student/proposition.html.twig',[
             'proposition' => $proposition[0]->getLinePropositions()[0]->getPrestations() != null ? $proposition[0]->getLinePropositions() : []
         ]);

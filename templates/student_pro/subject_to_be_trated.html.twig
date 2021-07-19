@@ -50,7 +50,7 @@
                                 <tr>
                                     <td>{{ p.id }}</td>
                                     <td>{{ p.User.name~' '~p.User.firstname }}</td>
-                                    <td>{{ p.proposition.PublicationStudent.matiere.nom }}</td>
+                                    <td>{{ p.proposition.PublicationStudent.matiere is not null ? p.proposition.PublicationStudent.matiere.nom : 'Autre' }}</td>
                                     <td>{{ p.proposition.PublicationStudent.explicationVisio == true? 'Oui': 'Non' }}</td>
                                     <td>{{ p.proposition.PublicationStudent.delayOfTreatement }}</td>
                                     <td>{{ p.proposition.PublicationStudent.availability|date('d/m/y - h:i') }}</td>

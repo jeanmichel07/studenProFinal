@@ -40,10 +40,10 @@ class StudentProController extends AbstractController
      */
     public function subjetProposerForMe(Request $request, LinePropositionRepository $linePropositionRepo, PublicationStudentRepository $publicationRepo, UserRepository $userRepo, SpecialtyRepository $specialityPro): Response
     {
-        $pub = $publicationRepo->findState();
+        $pub = $publicationRepo->findBy(["state" => 0]);
         foreach ($pub as $p) {
             $matiere = $p->getMatiere();
-            $publication_stud = $publicationRepo->findBy(['id' => $p->getId()]);
+            $publication_stud = $publicationRepo->findOneBy(['id' => $p->getId()]);
             $studentProSpeciality = $specialityPro->findOneBy(['matiere' => $matiere]);
             $user = $studentProSpeciality != null ? $studentProSpeciality->getUser() : null;
 
@@ -51,10 +51,10 @@ class StudentProController extends AbstractController
 
             if ($studentProSpeciality) {
                 $proposition = new Proposition();
-                $proposition->setPublicationStudent($publication_stud[0]);
+                $proposition->setPublicationStudent($publication_stud);
                 $propro = $this->getDoctrine()->getManager();
                 $propro->persist($proposition);
-                $publication_student = $publication_stud[0];
+                $publication_student = $publication_stud;
                 $lineProposition = new LineProposition();
                 $lineProposition->setProposition($proposition);
                 $lineProposition->setUser($userRepos);
@@ -65,6 +65,24 @@ class StudentProController extends AbstractController
                 $entityManager->persist($publication_student);
                 $entityManager->flush();
             }
+        }
+        $pub = $publicationRepo->findBy(["state" => 4]);
+        foreach ($pub as $p) {
+            $publication_stud = $publicationRepo->findOneBy(['id' => $p->getId()]);
+            $proposition = new Proposition();
+            $proposition->setPublicationStudent($publication_stud);
+            $propro = $this->getDoctrine()->getManager();
+            $propro->persist($proposition);
+            $publication_student = $publication_stud;
+            $lineProposition = new LineProposition();
+            $lineProposition->setProposition($proposition);
+            $lineProposition->setUser($this->getUser());
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($lineProposition);
+
+            $publication_student->setState(1);
+            $entityManager->persist($publication_student);
+            $entityManager->flush();
         }
         //  dd($request);
         $user = $this->getUser();

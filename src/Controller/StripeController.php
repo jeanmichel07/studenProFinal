@@ -24,4 +24,11 @@ class StripeController extends AbstractController
             'user' => $request->get('user'),
         ]);
     }
+
+    /**
+     * @param Request $request
+     */
+    public function resultPayment(Request $request){
+
+    }
 }

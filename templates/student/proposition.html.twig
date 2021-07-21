@@ -60,7 +60,8 @@
                                 </div>
                                 <div class="badgescard">
                                     <form action="{{ path('payment') }}" method="post">
-                                        <input name="tarif" type="text" value="{{ p.prestations.tarif }}" class="hidden">
+                                        <input name="user" type="text" value="{{ p.user.firstname }}" class="hidden" style="display: none">
+                                        <input name="tarif" type="text" value="{{ p.prestations.tarif }}" class="hidden" style="display: none">
                                         <input class="btn btn-primary" type="submit" value="Accepter">
                                     </form>
                                 </div>

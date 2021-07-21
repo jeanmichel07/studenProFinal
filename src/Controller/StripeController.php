@@ -20,7 +20,8 @@ class StripeController extends AbstractController
             'currency' => 'eur',
         ]);
         return $this->render('stripe/form-stripe.html.twig',[
-            'key' => $intent['client_secret']
+            'key' => $intent['client_secret'],
+            'user' => $request->get('user'),
         ]);
     }
 }

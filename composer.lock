@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f09fe08463de76a9b8c9ad3a6b5ae1f9",
+    "content-hash": "741a91b3c28921570b3e635c8dc88048",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -2239,16 +2239,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v7.89.0",
+            "version": "v7.90.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "fea12a15d46d15c017b3fe76f78aa7c983cb5928"
+                "reference": "c33e0810a05be37b0ff372f2bc83b82ca8010e61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/fea12a15d46d15c017b3fe76f78aa7c983cb5928",
-                "reference": "fea12a15d46d15c017b3fe76f78aa7c983cb5928",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/c33e0810a05be37b0ff372f2bc83b82ca8010e61",
+                "reference": "c33e0810a05be37b0ff372f2bc83b82ca8010e61",
                 "shasum": ""
             },
             "require": {
@@ -2292,11 +2292,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "support": {
-                "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v7.89.0"
-            },
-            "time": "2021-07-14T17:24:56+00:00"
+            "time": "2021-07-21T01:11:04+00:00"
         },
         {
             "name": "symfony/asset",
@@ -6946,6 +6942,5 @@
         "ext-json": "*",
         "ext-openssl": "*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "platform-dev": []
 }

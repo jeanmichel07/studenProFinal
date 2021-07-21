@@ -35,9 +35,10 @@ window.onload = () => {
         }
     });
 
-    cardButton.addEventListener('click', () => {
+    cardButton.addEventListener('click', async (e) => {
         // On envoie la promesse contenant le code de l'intention, l'objet "card" contenant les informations de carte et le nom du client
-        stripe.handleCardPayment(
+        e.target.classList.add('sending')
+        await stripe.handleCardPayment(
             clientSecret, card, {
                 payment_method_data: {
                     billing_details: {name: cardholderName.value}
@@ -53,5 +54,6 @@ window.onload = () => {
                 document.location.href = redirect;
             }
         });
+        e.target.classList.remove('sending')
     });
 }

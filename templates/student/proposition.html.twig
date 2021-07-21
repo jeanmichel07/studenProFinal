@@ -40,9 +40,9 @@
                                 <div class="card-wrap">
                                     <div class="firstinfo">
                                         {% if p.user.pictureStudent != "" %}
-                                            <img src="/uploads/profile/{{ p.user.pictureStudent }}" alt=""/>
+                                            <img src="{{ asset('uploads/profile/' ~ p.user.pictureStudent)  }}" alt=""/>
                                         {% else %}
-                                            <img src="/uploads/profile/default.png" alt=""/>
+                                            <img src="{{ asset('uploads/profile/default.png') }}" alt=""/>
                                         {% endif %}
                                         <div class="profileinfo">
                                             <h4>{{ p.user.name~' '~p.user.firstname }}</h4>

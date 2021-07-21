@@ -65,14 +65,13 @@ class StudentController extends AbstractController
                 }
 
             }
-            $orgDate = $request->get('publication_student_availability');
-            $datetime = explode(' ', $orgDate);
-            $date = explode('/', $datetime[0]);
-            $time = $datetime[1];
-            $newDatetime = "$date[2]-$date[1]-$date[0] $time";
+            $availability  = $request->get('publication_student_availability');
+            if(null != $availability){
+                $pub->setAvailability($availability);
+            }
+
             $pub->setState(0);
             $pub->setStudent($this->getUser());
-            $pub->setAvailability(new \DateTime($newDatetime));
             $this->manager->persist($pub);
 
             $this->manager->flush();

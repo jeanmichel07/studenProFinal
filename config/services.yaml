@@ -6,6 +6,9 @@
 parameters:
     upload_directory: '%kernel.project_dir%/public/uploads/cv'
     profil_directory: '%kernel.project_dir%/public/uploads/profile'
+    stripe_public_key: pk_test_51HOzIcFxeqqwVcLLJn52ayiX10YA8bJQLzaAyDSoy2JMD1Mrgwpacb3oImFNgsMbx06nsQ4yPazPpWTFgfepjrMI00QQtysVAS
+    stripe_secret_key: sk_test_51HOzIcFxeqqwVcLLzdF2B5CYZDmwvqUQ8X1M8qnUT2BRW1Z40fkN48GtXCrw6igZOUtLxNCi3HwrKMq9WllAjU3v00RHrs3ZcN
+    stripe_currency: eur
 
 services:
     # default configuration for services in *this* file

@@ -38,7 +38,12 @@
                         <div class="col-xl-4 col-md-6 col-sm-12">
                             <div class="content">
                                 <div class="card-wrap">
-                                    <div class="firstinfo"><img src="https://randomuser.me/api/portraits/lego/6.jpg" alt=""/>
+                                    <div class="firstinfo">
+                                        {% if p.user.pictureStudent != "" %}
+                                            <img src="/uploads/profile/{{ p.user.pictureStudent }}" alt=""/>
+                                        {% else %}
+                                            <img src="/uploads/profile/default.png" alt=""/>
+                                        {% endif %}
                                         <div class="profileinfo">
                                             <h4>{{ p.user.name~' '~p.user.firstname }}</h4>
                                             <h3>
@@ -54,7 +59,10 @@
                                     </div>
                                 </div>
                                 <div class="badgescard">
-                                    <button class="btn btn-primary">accepter</button>
+                                    <form action="{{ path('payment') }}" method="post">
+                                        <input name="tarif" type="text" value="{{ p.prestations.tarif }}" class="hidden">
+                                        <input class="btn btn-primary" type="submit" value="Accepter">
+                                    </form>
                                 </div>
                             </div>
                         </div>

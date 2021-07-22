@@ -76,7 +76,7 @@ class StudentProController extends AbstractController
             $publication_student = $publication_stud;
             $lineProposition = new LineProposition();
             $lineProposition->setProposition($proposition);
-            $lineProposition->setUser($this->getUser());
+            $lineProposition->setUser($this->getUser())->setState(false);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($lineProposition);
 
@@ -88,7 +88,7 @@ class StudentProController extends AbstractController
         $user = $this->getUser();
         $iduser = $user->getId();
         $proposition = $linePropositionRepo->findBy(['User' => $iduser]);
-        //dd($proposition);
+        // dd($proposition);
         return $this->render('student_pro/subject_to_be_trated.html.twig', [
             'proposition' => $proposition
         ]);

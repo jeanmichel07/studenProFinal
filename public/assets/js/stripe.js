@@ -1,4 +1,5 @@
 window.onload = () => {
+
     // On instancie Stripe et on lui passe notre clé publique
     let stripe = Stripe('pk_test_51HOzIcFxeqqwVcLLJn52ayiX10YA8bJQLzaAyDSoy2JMD1Mrgwpacb3oImFNgsMbx06nsQ4yPazPpWTFgfepjrMI00QQtysVAS');
 
@@ -6,7 +7,7 @@ window.onload = () => {
     let elements = stripe.elements();
 
 // Définit la redirection en cas de succès du paiement
-    let redirect = "/index.php";
+    let redirect = `/change-state-line-proposition/${id}`;
 
 // Récupère l'élément qui contiendra le nom du titulaire de la carte
     let cardholderName = document.getElementById('cardholder-name');

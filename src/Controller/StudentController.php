@@ -92,7 +92,6 @@ class StudentController extends AbstractController
     public function subjectInProgress(Request $request, PublicationStudentRepository $publicationStudentRepository): Response
     {
         $subjects = $publicationStudentRepository->findBy(['student' => $this->getUser()]);
-        dump($subjects[0]->getPropositions()[0]->getLinePropositions()[0]);
         return $this->render('student/subject_in_progress.html.twig', [
             'subjects' => $subjects
         ]);

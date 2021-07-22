@@ -114,22 +114,6 @@
         }
         $('#publication_student_explication_visio').on('load', verificationChecked)
         $('#publication_student_explication_visio').on('click', verificationChecked)
-        $(function () {
-            $('#publication_student_availability').datetimepicker({
-                locale: 'fr',
-                icons: {
-                    time:'fas fa-clock',
-                    date:'fas fa-calendar-times',
-                    up:'fas fa-chevron-up',
-                    down:'fas fa-chevron-down',
-                    previous:'fas fa-chevron-left',
-                    next:'fas fa-chevron-right',
-                    today:'fas fa-crosshairs',
-                    clear:'fas fa-trash',
-                    close:'fas fa-times'
-                },
-                minDate: moment().add('d', 1).toDate()
-            });
-        });
+        
     </script>
 {% endblock %}

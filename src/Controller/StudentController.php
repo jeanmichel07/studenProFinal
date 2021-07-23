@@ -66,8 +66,11 @@ class StudentController extends AbstractController
 
             }
             $availability  = $request->get('publication_student_availability');
-            if(null != $availability){
-                $pub->setAvailability($availability);
+            $availability_convert= new \DateTime('@'.strtotime($availability));
+           // dd($test);
+           // dd($availability);
+            if(null != $availability_convert){
+                $pub->setAvailability($availability_convert);
             }
 
             $pub->setState(0);

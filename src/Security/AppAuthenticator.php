@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Manager\AppManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,13 +33,19 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
     private $csrfTokenManager;
     private $passwordEncoder;
 
-    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
+    private $manager;
+
+
+    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder, AppManager $manager)
     {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
+        $this->manager = $manager;
     }
+
+
 
     public function supports(Request $request)
     {
@@ -48,10 +55,13 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
 
     public function getCredentials(Request $request)
     {
+        $role=$this->manager->decrypt($request->request->get('privilege'));
+        $roles=  $role == "simple" ? ["ROLE_STUDENT"] : ["ROLE_STUDENT_PRO"];
         $credentials = [
             'email' => $request->request->get('email'),
             'password' => $request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
+            'privilege' => $roles,
         ];
         $request->getSession()->set(
             Security::LAST_USERNAME,
@@ -67,9 +77,12 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
         }
+        //dd($credentials);
+       $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email'],'isVerified' =>true]);
 
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email'],'isVerified' =>true]);
-
+        if($user->getRoles() != $credentials['privilege']){
+            $user=null;
+        }
         if (!$user) {
             //throw new UsernameNotFoundException('Email could not be found.');
             throw new CustomUserMessageAuthenticationException('Identifiants incorrects. Veuillez saisir vos informations de connexion.');

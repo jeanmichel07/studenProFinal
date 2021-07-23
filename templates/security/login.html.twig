@@ -35,6 +35,7 @@
                     <span class="label-input100">Password</span>
                 </div>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <input type="hidden" name="privilege" value="{{ app.request.get('c') }}">
                 <div class="flex-sb-m w-full p-t-3 p-b-32">
                     <div class="contact100-form-checkbox">
                     </div>

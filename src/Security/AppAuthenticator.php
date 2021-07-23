@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -79,13 +80,16 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
         }
         //dd($credentials);
        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email'],'isVerified' =>true]);
-
-        if($user->getRoles() != $credentials['privilege']){
-            $user=null;
+        if($user){
+            if($user->getRoles() != $credentials['privilege']){
+                $user=null;
+            }
         }
+
         if (!$user) {
             //throw new UsernameNotFoundException('Email could not be found.');
             throw new CustomUserMessageAuthenticationException('Identifiants incorrects. Veuillez saisir vos informations de connexion.');
+
         }
 
         return $user;
@@ -121,4 +125,6 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
+
+
 }

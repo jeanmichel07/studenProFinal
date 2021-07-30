@@ -81,7 +81,7 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
         //dd($credentials);
        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email'],'isVerified' =>true]);
         if($user){
-            if($user->getRoles() != $credentials['privilege']){
+            if($user->getRoles() != $credentials['privilege'] && $user->getRoles() != ["ROLE_ADMIN"]){
                 $user=null;
             }
         }

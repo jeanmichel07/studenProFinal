@@ -4,6 +4,17 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('layout/assets/js/Date-Time-Picker-Bootstrap-4/build/css/bootstrap-datetimepicker.min.css') }}"/>
     <style>
+
+
+      /*  label{display:block;margin-bottom:5px;}*/
+        label:not(:nth-of-type(1)):not(.error){margin-top:20px;}
+        [type="file"]{margin-left:20px;}
+        .error{color:red;display:inline-block;
+            margin-left:5px;
+        }
+        /* MISE EN PAGE */
+        .bloc-mise-en-page{min-width:45%}
+
         .lab {
             background-color: #488aff;
             color: #FFFFFF;
@@ -85,8 +96,8 @@
                         <div class="form-group">
                             <label for="upload" class="lab"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
                                 <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z"/>
-                                </svg> Pièce jointe <span style="color: #000000">( .pdf, .docx, .doc )</span></label>
-                            <input class="form-control" style="visibility: hidden; height: 0; width: 0;" id="upload" type="file" name="file" accept="application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document" required />
+                                </svg> Pièces jointes (6 fichiers max)<span style="color: #000000">( .pdf, .docx, .doc )</span></label>
+                            <input class="form-control" style="visibility: hidden; height: 0; width: 0;" id="upload" type="file" name="file[file][]" accept="application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document" required multiple data-maxuploads="6"/>
                             <div class="fileName-student"></div>
                         </div>
                         <button class="btn w-100 btn-primary" type="submit" name="btn-save-pub">Envoyer la demande d'aide</button>
@@ -129,5 +140,67 @@
 
         today = yyyy+'-'+mm+'-'+dd;
         document.getElementById("publication_student_availability").setAttribute("min", today);
+
+
+
+        /**
+         * Recupère le label d'erreur s'il existe
+         * @param oFile    Objet input file
+         * @param sClass   Nom dela class d'erreur
+         * @return null| Objet Label
+         */
+        function getLabelError(oFile, sClass){
+            let oError = null;
+            for(let oLabel of oFile.labels ){
+                if(oLabel.classList.contains(sClass)){
+                    oError = oLabel;
+                    break;
+                }//if
+            }//for
+            return oError;
+        }//fct
+
+        /**
+         * Creation du label d'erreur
+         * @param oFile    Objet input file
+         * @param sClass   Nom dela class d'erreur
+         * @return Objet Label
+         */
+        function createError(oFile, sClass){
+            let oError = document.createElement("label");
+            oError.className = sClass
+            oError.htmlFor = oFile.id;
+            oFile.after(oError);
+            return oError;
+        }//fct
+
+        function uploadCheck(oEvent){
+            let iMaxuploads = parseInt(this.dataset["maxuploads"]),
+                iNumFiles = this.files.length,
+                sClass = "error",
+                oError = getLabelError(this, sClass);
+            if(iNumFiles > iMaxuploads){
+                this.value = ""
+                this.classList.add("error");
+                if(oError ==  null){
+                    oError = createError(this, sClass);
+                }//if
+                oError.textContent = "Vous ne pouvez sélectionner que "+iMaxuploads+" fichiers"
+            }else{
+                this.classList.remove("error");
+                if(oError){
+                    oError.remove();
+                }//if
+            }//else
+        }//fct
+
+        document.addEventListener('DOMContentLoaded',function(){
+            let oForm  = document.forms.form,
+                aFiles = document.querySelectorAll('[data-maxuploads]');
+            for(let oFile of aFiles){
+                oFile.addEventListener('change', uploadCheck);
+            }//for
+        });
+
     </script>
 {% endblock %}

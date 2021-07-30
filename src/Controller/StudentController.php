@@ -47,8 +47,10 @@ class StudentController extends AbstractController
         $form->handleRequest($request);
         $matieres = $this->matiereRepository->findBy(['statu' => true]);
         if ($form->isSubmitted() and $form->isValid()) {
+            $fich= $_FILES['file'];
+
             if ($_FILES['file'] != null and $_FILES['file']['error'] == 0) {
-                $matiere = $this->matiereRepository->findOneBy(['nom' => $request->get('matiere')]);
+                $matiere = $this->matiereRepository->findOneBy(['nom' => ucfirst($request->get('matiere'))]);
                 if (null != $matiere) {
                     $pub->setMatiere($matiere);
                 }

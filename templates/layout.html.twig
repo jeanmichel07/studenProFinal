@@ -17,6 +17,7 @@
     {% endblock %}
 </head>
 <body>
+
 {% set profile = app.user.pictureStudent is not null or app.user.pictureStudent|trim != '' ? app.user.pictureStudent : 'default.png' %}
 <div class="theme-loader">
     <div class="loader-track">

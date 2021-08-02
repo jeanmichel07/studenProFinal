@@ -18,7 +18,7 @@ class HomeController extends AbstractController
     {
         $user = $this->getUser();
 
-        if(is_null($user)){
+        if($user == null){
             return $this->redirectToRoute('choices');
         }else{
             $role_user= $user->getRoles();

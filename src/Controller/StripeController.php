@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\LineProposition;
 use App\Repository\UserRepository;
+use App\Repository\PublicationStudentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,14 +37,19 @@ class StripeController extends AbstractController
      * @Route("/change-state-line-proposition/{id}")
      * @return RedirectResponse
      */
-    public function resultPayment(Request $request, LineProposition $proposition, UserRepository $userRepo,MailerInterface $mailer){
+    public function resultPayment(Request $request, LineProposition $proposition, UserRepository $userRepo,MailerInterface $mailer,PublicationStudentRepository $pubStudent){
         $em = $this->getDoctrine()->getManager();
         $proposition->setState(true);
-        $idUs = $proposition->getUser();
-        $mail_pro= $userRepo->findBy(['id'=>$idUs->getId()]);
-        
         $em->persist($proposition);
         $em->flush();
+        
+        $idUs = $proposition->getUser();
+        $mail_pro= $userRepo->findBy(['id'=>$idUs->getId()]);
+        $pub=$pubStudent->findBy(['id' => $proposition->getProposition()->getId()]);
+        $pub[0]->setState('2');
+        $me= $this->getDoctrine()->getManager();
+        $me->persist($pub[0]);
+        $me->flush();
         $mail = (new Email())
                     ->from('tombokely@gmail.com')
                     ->to($mail_pro[0]->getEmail())
@@ -51,7 +57,7 @@ class StripeController extends AbstractController
                     ->html($this->renderView('emails/payement_proposition.html.twig'));
         $mailer->send($mail);
 
-                $this->addFlash('success', 'Un email a été envoyer à l\'adresse ' . $mail_inscrit . '. Verifier dans spam si le mail n\'apparaisse pas dans votre boîte de reception. Merci');
+        $this->addFlash('success', 'Un email a été envoyer à l\'adresse ' . $mail_inscrit . '. Verifier dans spam si le mail n\'apparaisse pas dans votre boîte de reception. Merci');
         return  $this->redirectToRoute('subject_in_progress');
     }
 }

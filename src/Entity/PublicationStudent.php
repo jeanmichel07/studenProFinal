@@ -59,6 +59,11 @@ class PublicationStudent
      */
     private $matiere;
 
+    /**
+     * @ORM\OneToOne(targetEntity=PublicationTraited::class, mappedBy="pubStudent", cascade={"persist", "remove"})
+     */
+    private $publicationTraited;
+
     public function __construct()
     {
         $this->propositions = new ArrayCollection();
@@ -179,6 +184,28 @@ class PublicationStudent
     public function setMatiere(?Matiere $matiere): self
     {
         $this->matiere = $matiere;
+
+        return $this;
+    }
+
+    public function getPublicationTraited(): ?PublicationTraited
+    {
+        return $this->publicationTraited;
+    }
+
+    public function setPublicationTraited(?PublicationTraited $publicationTraited): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($publicationTraited === null && $this->publicationTraited !== null) {
+            $this->publicationTraited->setPubStudent(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($publicationTraited !== null && $publicationTraited->getPubStudent() !== $this) {
+            $publicationTraited->setPubStudent($this);
+        }
+
+        $this->publicationTraited = $publicationTraited;
 
         return $this;
     }

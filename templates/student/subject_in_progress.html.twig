@@ -52,14 +52,19 @@
                                 <td>{{ subject.delayOfTreatement }}</td>
                                 <td>{{ subject.availability|date('d/m/Y à H:i') }}</td>
                                 <td>
-                                    <a href="{{ asset('pub_student/' ~ subject.file) }}" class="btn btn-primary m-r-5 view"  data-toggle="modal" data-target="#pdfViewerModal" style="padding: 5px 10px;"><i class="fa fa-eye m-0"></i></a>
-                                    <a title="télécharger" href="{{ asset('pub_student/' ~ subject.file) }}" class="btn btn-secondary d-inline-block" target="_blank" download style="padding: 5px 10px;"><i class="fa fa-download m-0"></i></a>
+                                    {% for f in ficher %}
+                                            {% if f!="" %}
+                                                <a href="{{ asset('pub_student/' ~ f) }}" class="btn btn-primary m-r-5 view"  data-toggle="modal" data-target="#pdfViewerModal" style="padding: 5px 10px;"><i class="fa fa-eye m-0"></i></a>
+                                                <a title="télécharger" href="{{ asset('pub_student/' ~ f) }}" class="btn btn-secondary d-inline-block" target="_blank" download style="padding: 5px 10px;"><i class="fa fa-download m-0"></i></a>
+                                                
+                                            {% endif %}
+                                    {% endfor %}
                                     {% for l in subject.propositions.first.linePropositions %}
-                                    {% if l.state == false %}
-                                        <a href="{{ path('proposition', {id:subject.id}) }}" class="btn btn-sm btn-primary">Proposition(s)</a>
-                                    {% else %}
-                                        <button class="btn btn-sm btn-info">En cours</button>
-                                    {% endif %}
+                                        {% if l.state == false %}
+                                            <a href="{{ path('proposition', {id:subject.id}) }}" class="btn btn-sm btn-primary">Proposition(s)</a>
+                                        {% else %}
+                                            <button class="btn btn-sm btn-info">En cours</button>
+                                        {% endif %}
                                     {% endfor %}
                                 </td>
                             </tr>

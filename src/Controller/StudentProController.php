@@ -105,6 +105,7 @@ class StudentProController extends AbstractController
                 //dd($proposition);
                 $fich = $proposition[0]->getFile() ;
                 $ficher= explode(';',$fich);
+                
                 return $this->render('student_pro/subject_to_be_trated.html.twig', [
                         'proposition' => ($lineproposition!=null) ? $lineproposition : [] ,
                         'fich' => ($ficher!=null) ? $ficher : [] ,

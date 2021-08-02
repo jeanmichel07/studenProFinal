@@ -94,14 +94,14 @@ class StudentProController extends AbstractController
         }
         //  dd($request);
         $user = $this->getUser();
-        $ficher=null;
-        $proposition=null;
         if($user){
             $iduser = $user->getId();
-            $proposition = $linePropositionRepo->findBy(['User' => $iduser]);
-
+            $lineproposition = $linePropositionRepo->findBy(['User' => $iduser]);
+            $proposition= $publicationRepo->findBy(['id' => $lineproposition]);
+          
             if($proposition){
-                $fich = $proposition->getFile() ;
+                
+                $fich = $proposition[0]->getFile() ;
                 $ficher= explode(';',$fich);
                 return $this->render('student_pro/subject_to_be_trated.html.twig', [
                         'proposition' => ($proposition!=null) ? $proposition : [] ,

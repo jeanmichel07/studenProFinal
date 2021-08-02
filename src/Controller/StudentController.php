@@ -46,31 +46,33 @@ class StudentController extends AbstractController
         $form = $this->createForm(PublicationStudentType::class, $pub);
         $form->handleRequest($request);
         $matieres = $this->matiereRepository->findBy(['statu' => true]);
+        $tabNomFichier="";
         if ($form->isSubmitted() and $form->isValid()) {
-            $fich= $_FILES['file'];
+            $file = $_FILES['file'];
+            $extensions_autorisees = array('pdf', 'doc', 'docx', 'PDF', 'DOC', 'DOCX');
 
-            if ($_FILES['file'] != null and $_FILES['file']['error'] == 0) {
-                $matiere = $this->matiereRepository->findOneBy(['nom' => ucfirst($request->get('matiere'))]);
-                if (null != $matiere) {
-                    $pub->setMatiere($matiere);
+            //foreach ($file as $files){
+            for ($i = 0;$i<count($file['name']);$i++){
+                if($_FILES['file']['name'][$i] != null AND $_FILES['file']['error'][$i]==0){
+                    $extensionProfil = pathinfo($file['name'][$i], PATHINFO_EXTENSION);
+                    if (in_array($extensionProfil, $extensions_autorisees)) {
+                        $nameFileProfil = pathinfo($_FILES['file']['name'][$i], PATHINFO_FILENAME);
+                        $name = md5($nameFileProfil);
+                        move_uploaded_file($_FILES['file']['tmp_name'][$i], 'pub_student/' . $name . '.' . $extensionProfil);
+                        $tabNomFichier.=$name . '.' . $extensionProfil .';';
+
+                    }
                 }
-
-                $file = pathinfo($_FILES['file']['name']);
-                $extensionProfil = $file['extension'];
-                $extensions_autorisees = array('pdf', 'doc', 'docx', 'PDF', 'DOC', 'DOCX');
-                if (in_array($extensionProfil, $extensions_autorisees)) {
-                    $nameFileProfil = $file['filename'];
-
-                    $name = md5($nameFileProfil);
-                    move_uploaded_file($_FILES['file']['tmp_name'], 'pub_student/' . $name . '.' . $extensionProfil);
-                    $pub->setFile($name . '.' . $extensionProfil);
-                }
-
             }
+
+            $pub->setFile($tabNomFichier);
+            $matiere = $this->matiereRepository->findOneBy(['nom' => ucfirst($request->get('matiere'))]);
+            if (null != $matiere) {
+                $pub->setMatiere($matiere);
+            }
+
             $availability  = $request->get('publication_student_availability');
 
-           // dd($test);
-           // dd($availability);
             if(null != $availability){
                 $availability_convert= new \DateTime('@'.strtotime($availability));
                 $pub->setAvailability($availability_convert);

@@ -41,15 +41,41 @@ class StudentProController extends AbstractController
     public function subjetProposerForMe(Request $request, LinePropositionRepository $linePropositionRepo, PublicationStudentRepository $publicationRepo, UserRepository $userRepo, SpecialtyRepository $specialityPro): Response
     {
         $pub = $publicationRepo->findBy(["state" => 0]);
-        foreach ($pub as $p) {
-            $matiere = $p->getMatiere();
-            $publication_stud = $publicationRepo->findOneBy(['id' => $p->getId()]);
-            $studentProSpeciality = $specialityPro->findOneBy(['matiere' => $matiere]);
-            $user = $studentProSpeciality != null ? $studentProSpeciality->getUser() : null;
+        if($pub){
+            foreach ($pub as $p) {
+                $matiere = $p->getMatiere();
+                $publication_stud = $publicationRepo->findOneBy(['id' => $p->getId()]);
+                $studentProSpeciality = $specialityPro->findOneBy(['matiere' => $matiere]);
+                $user = $studentProSpeciality != null ? $studentProSpeciality->getUser() : null;
 
-            $userRepos = $userRepo->findOneBy(['id' => $user]);
+                $userRepos = $userRepo->findOneBy(['id' => $user]);
 
-            if ($studentProSpeciality) {
+                if ($studentProSpeciality) {
+                    $proposition = new Proposition();
+                    $proposition->setPublicationStudent($publication_stud);
+                    $propro = $this->getDoctrine()->getManager();
+                    $propro->persist($proposition);
+                    $propro->flush();
+                    $publication_student = $publication_stud;
+                    $lineProposition = new LineProposition();
+                    $lineProposition->setProposition($proposition);
+                    $lineProposition->setUser($userRepos);
+                    $linePropo = $this->getDoctrine()->getManager();
+                    $linePropo->persist($lineProposition);
+                    $linePropo->flush();
+
+
+                    $publication_student->setState(1);
+                    $entityManager= $this->getDoctrine()->getManager();
+                    $entityManager->persist($publication_student);
+                    $entityManager->flush();
+                }
+            }
+        }
+        $pub = $publicationRepo->findBy(["state" => 4]);
+        if($pub){
+            foreach ($pub as $p) {
+                $publication_stud = $publicationRepo->findOneBy(['id' => $p->getId()]);
                 $proposition = new Proposition();
                 $proposition->setPublicationStudent($publication_stud);
                 $propro = $this->getDoctrine()->getManager();
@@ -57,7 +83,7 @@ class StudentProController extends AbstractController
                 $publication_student = $publication_stud;
                 $lineProposition = new LineProposition();
                 $lineProposition->setProposition($proposition);
-                $lineProposition->setUser($userRepos);
+                $lineProposition->setUser($this->getUser())->setState(false);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($lineProposition);
 
@@ -66,31 +92,30 @@ class StudentProController extends AbstractController
                 $entityManager->flush();
             }
         }
-        $pub = $publicationRepo->findBy(["state" => 4]);
-        foreach ($pub as $p) {
-            $publication_stud = $publicationRepo->findOneBy(['id' => $p->getId()]);
-            $proposition = new Proposition();
-            $proposition->setPublicationStudent($publication_stud);
-            $propro = $this->getDoctrine()->getManager();
-            $propro->persist($proposition);
-            $publication_student = $publication_stud;
-            $lineProposition = new LineProposition();
-            $lineProposition->setProposition($proposition);
-            $lineProposition->setUser($this->getUser())->setState(false);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($lineProposition);
-
-            $publication_student->setState(1);
-            $entityManager->persist($publication_student);
-            $entityManager->flush();
-        }
         //  dd($request);
         $user = $this->getUser();
-        $iduser = $user->getId();
-        $proposition = $linePropositionRepo->findBy(['User' => $iduser]);
-        // dd($proposition);
+        $ficher=null;
+        $proposition=null;
+        if($user){
+            $iduser = $user->getId();
+            $proposition = $linePropositionRepo->findBy(['User' => $iduser]);
+
+            if($proposition){
+                $fich = $proposition->getFile() ;
+                $ficher= explode(';',$fich);
+                return $this->render('student_pro/subject_to_be_trated.html.twig', [
+                        'proposition' => ($proposition!=null) ? $proposition : [] ,
+                    'fich' => ($ficher!=null) ? $ficher : [] ,
+                ]);
+        }
+
+
+
+        }
+
         return $this->render('student_pro/subject_to_be_trated.html.twig', [
-            'proposition' => $proposition
+            'proposition' => ($proposition!=null) ? $proposition : [] ,
+            'fich' => ($ficher!=null) ? $ficher : [] ,
         ]);
     }
 

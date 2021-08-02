@@ -17,8 +17,8 @@
     {% endblock %}
 </head>
 <body>
-
-{% set profile = app.user.pictureStudent is not null or app.user.pictureStudent|trim != '' ? app.user.pictureStudent : 'default.png' %}
+{{ app.user }}
+  {% set profile = (app.user.pictureStudent is not null or app.user.pictureStudent|trim != '') ? app.user.pictureStudent : 'default.png' %}
 <div class="theme-loader">
     <div class="loader-track">
         <div class="preloader-wrapper">
@@ -164,8 +164,8 @@
                         </li>
                         <li class="user-profile header-notification">
                             <a href="#!" class="waves-effect waves-light">
-                                <img src="{{ asset('uploads/profile/' ~ profile) }}" class="img-radius" alt="User-Profile-Image">
-                                <span>{{ app.user is not null? app.user.name~' '~app.user.firstname: 'Anonyme' }}</span>
+                                 <img src="{{ asset('uploads/profile/' ~ profile) }}" class="img-radius" alt="User-Profile-Image">
+                                   <span>{{ app.user is not null? app.user.name~' '~app.user.firstname: 'Anonyme' }}</span>
                                 <i class="ti-angle-down"></i>
                             </a>
                             <ul class="show-notification profile-notification">
@@ -197,8 +197,8 @@
                     <div class="pcoded-inner-navbar main-menu">
                         <div class="">
                             <div class="main-menu-header">
-                                <img class="img-80 img-radius" src="{{ asset('uploads/profile/' ~ profile) }}" alt="User-Profile-Image">
-                                <div class="user-details">
+                                 <img class="img-80 img-radius" src="{{ asset('uploads/profile/' ~ profile) }}" alt="User-Profile-Image">
+                             <div class="user-details">
                                     <span id="more-details">{{ app.user is not null? app.user.name~' '~app.user.firstname: 'Anonyme' }}<i class="fa fa-caret-down"></i></span>
                                 </div>
                             </div>

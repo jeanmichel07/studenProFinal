@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\LineProposition;
 use App\Entity\Prestation;
 use App\Entity\Proposition;
+use App\Entity\User;
 use App\Form\PrestationType;
 use App\Repository\LinePropositionRepository;
 use App\Repository\PrestationRepository;
@@ -105,7 +106,7 @@ class StudentProController extends AbstractController
                 //dd($proposition);
                 $fich = $proposition[0]->getFile() ;
                 $ficher= explode(';',$fich);
-                
+
                 return $this->render('student_pro/subject_to_be_trated.html.twig', [
                         'proposition' => ($lineproposition!=null) ? $lineproposition : [] ,
                         'fich' => ($ficher!=null) ? $ficher : [] ,
@@ -147,6 +148,25 @@ class StudentProController extends AbstractController
         }
         return $this->render('student_pro/prestation.html.twig', [
             'prestationForm' => $form->createView(),
+        ]);
+    }
+
+    /** 
+     * @Route("/student/pro/subject-traiter", name="subject_response")
+    */
+    public function subjectTreated(Request $request, LinePropositionRepository $linePropositionRepo, PublicationStudentRepository $publicationRepo, UserRepository $userRepo){
+        $user=$this->getUser();
+        $pro=$publicationRepo->publicationInTreament($user);
+        $idPub=$pro[0]->getPublicationStudent()->getId();
+        $pubStudent= $publicationRepo->findBy(['id' => $idPub]);
+      /*  $form->handleRequest($request);
+        if($form->isSubmited and $form->isValidate){
+            dd($request);
+        }
+*/
+
+        return $this->render('student_pro/subject_treated.html.twig',[
+            'subjects' => $pubStudent[0],
         ]);
     }
 }

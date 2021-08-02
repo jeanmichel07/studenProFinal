@@ -47,5 +47,16 @@ class PublicationStudentRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function publicationInTreament($us)
+    {
+        $dql = $this->getEntityManager();
 
+        $query = $dql->createQuery("select pr from App\Entity\Proposition pr LEFT JOIN App\Entity\PublicationStudent p WITH p.id=pr.PublicationStudent LEFT JOIN App\Entity\LineProposition lp WITH lp.Proposition=p.id where  p.state= :stateone and lp.User= :idUs")
+                    ->setParameters([
+                        "stateone"=>2,
+                        "idUs"=>$us
+                    ]);
+        return $query->getResult();
+
+    }
 }

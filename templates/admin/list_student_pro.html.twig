@@ -58,7 +58,7 @@
                                             <span>{{ s.matiere.nom }}{% if loop.index != loop.last %},&nbsp;{% endif %}</span>
                                         {% endfor %}</span></div></td>
                                     <td>
-                                        <a href="{{ asset('uploads/cv/' ~ subject.fileCv) }}" class="btn btn-primary m-r-5 view"  data-toggle="modal" data-target="#pdfViewerModal" style="padding: 5px 10px;"><i class="fa fa-eye m-0"></i></a>
+                                        <a href="{{ asset('uploads/cv/' ~ student.fileCv) }}" class="btn btn-primary m-r-5 view"  data-toggle="modal" data-target="#pdfViewerModal" style="padding: 5px 10px;"><i class="fa fa-eye m-0"></i></a>
                                         <a title="télécharger" href="{{ asset('uploads/cv/' ~ student.fileCv) }}" class="btn btn-secondary d-inline-block" target="_blank" download style="padding: 5px 10px;"><i class="fa fa-download m-0"></i></a></td>
                                 </tr>
                             {% else %}

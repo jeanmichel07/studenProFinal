@@ -6,12 +6,15 @@ use App\Entity\LineProposition;
 use App\Entity\Prestation;
 use App\Entity\Proposition;
 use App\Entity\User;
+use App\Entity\PublicationTraited;
 use App\Form\PrestationType;
+use App\Form\ReponseType;
 use App\Repository\LinePropositionRepository;
 use App\Repository\PrestationRepository;
 use App\Repository\PublicationStudentRepository;
 use App\Repository\SpecialtyRepository;
 use App\Repository\UserRepository;
+use App\Repository\PublicationTraitedRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -153,20 +156,50 @@ class StudentProController extends AbstractController
 
     /** 
      * @Route("/student/pro/subject-traiter", name="subject_response")
+     * @param Request $request
+     * @param LinePropositionRepository $linePropositionRepo
+     * @param PublicationStudentRepository $publicationRepo 
+     * @param UserRepository $userRepo
+     * @return Response
     */
-    public function subjectTreated(Request $request, LinePropositionRepository $linePropositionRepo, PublicationStudentRepository $publicationRepo, UserRepository $userRepo){
+    public function subjectTreated(Request $request, LinePropositionRepository $linePropositionRepo, PublicationStudentRepository $publicationRepo, UserRepository $userRepo) : Response
+    {
+        $pubTraiter = new PublicationTraited();
+        $form = $this->createForm(ReponseType::class,$pubTraiter);
         $user=$this->getUser();
         $pro=$publicationRepo->publicationInTreament($user);
         $idPub=$pro[0]->getPublicationStudent()->getId();
         $pubStudent= $publicationRepo->findBy(['id' => $idPub]);
-      /*  $form->handleRequest($request);
-        if($form->isSubmited and $form->isValidate){
-            dd($request);
+        
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $file = $_FILES['reponse'];
+            $extensions_autorisees = array('pdf', 'doc', 'docx', 'PDF', 'DOC', 'DOCX', 'JPG', 'jpg', 'jpeg', 'JPEG', 'PNG', 'png');
+            //dd($file['error']['file_response'][0]);
+            if($file['name']['file_response'][0] != null AND $file['error']['file_response'][0]==0){
+                $extensionProfil = pathinfo($file['name']['file_response'][0], PATHINFO_EXTENSION);
+                if (in_array($extensionProfil, $extensions_autorisees)) {
+                    $nameFileProfil = pathinfo($file['name']['file_response'][0], PATHINFO_FILENAME);
+                    $name = md5($nameFileProfil);
+                    move_uploaded_file($file['name']['file_response'][0], 'rep_studenPro/' . $name . '.' . $extensionProfil);
+                    $tabNomFichier=$name . '.' . $extensionProfil;
+                    $pubTraiter->setFileResponse($tabNomFichier);
+                    //dd($pubStudent);
+                    $pubTraiter->setPubStudent($pubStudent[0]);
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($pubTraiter);
+                    $pubStudent[0]->setState("3");
+                    $entityManager->persist($pubStudent[0]);
+                    $entityManager->flush();
+
+                    return $this->redirectToRoute('subject_prorosed');
+                }
+            }
         }
-*/
 
         return $this->render('student_pro/subject_treated.html.twig',[
             'subjects' => $pubStudent[0],
+            'reponseForm' => $form->createView(),
         ]);
     }
 }
